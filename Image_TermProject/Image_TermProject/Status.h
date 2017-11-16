@@ -1,39 +1,40 @@
 #pragma once
 
-#include "opencv2\core.hpp"
+#include "opencv2\opencv.hpp"
+using namespace cv;
 
 #define EMPTY 0
 #define BLACK 1
 #define WHITE 2
 
 #define LINE_THICKNESS 10
-
+#define WB_THRESHOLD 30
 
 class Status{
+	cv::Mat img;		//original picture
 	cv::Mat src;
-	uchar* data;
 	int width, height;
 	int windowSize;
 
+	
 	char** board;
 	int row, col;
 	int num_w, num_b;
 
 
 public:
-	Status(cv::Mat& src);
+	Status(Mat& img, int colNum);
 	Status();
 	~Status();
 
 	bool InitializeBoard();
 	bool DifferenceCheck();
-	bool UpdateBoard();
+	bool Update();
 	char** getBoard();
-	char* getPos(int x, int y);
+	char* getPos(int xid, int yid);
 
 private:
-	int countLines();
-	bool setStone(int x, int y, int color);
-	cv::Mat binarize(cv::Mat src);
-
+	bool setStone(int xid, int yid, int color);
+	Mat binarize(Mat img);
+	Mat inverse_binarize(cv::Mat src);
 };
