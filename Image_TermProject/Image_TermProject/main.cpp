@@ -7,10 +7,11 @@ using namespace std;
 using namespace cv;
 
 int main(){
-	Mat img = imread("omokSample.bmp");
+	Mat img = imread("sample01.bmp");
 	if (img.empty())
 		return -1;
 	Status stat(img, 20);
+	stat.InitializeBoard();
 	waitKey();
-	cout << "hi";
+	//cout << "hi";
 }
