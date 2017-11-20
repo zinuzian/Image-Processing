@@ -11,6 +11,7 @@ Status::Status(cv::Mat& img, int colNum) {
 	contrastStretch(gray,160);
 
 	src = binarize(gray);
+	isrc = inverse_binarize(gray);
 	cvSaveImage("gray.bmp", new IplImage(gray));
 	cvSaveImage("binary.bmp", new IplImage(src));
 
@@ -23,6 +24,7 @@ Status::Status(cv::Mat& img, int colNum) {
 }
 Status::Status() {
 	this->src = 0;
+	this->isrc = 0;
 	size = cvSize(0, 0);
 	row = col = 0;
 	colPxs = nullptr;
@@ -70,7 +72,7 @@ Mat Status::inverse_binarize(cv::Mat img) {
 	Mat tmp = Mat::zeros(size, CV_8U);
 	for (int y = 0; y < img.rows; y++) {
 		for (int x = 0; x < img.cols; x++) {
-			if (img.at<uchar>(y, x) > UCHAR_MAX - WB_THRESHOLD)
+			if (img.at<uchar>(y, x) >  UCHAR_MAX - WB_THRESHOLD)
 				tmp.at<uchar>(y, x) = 0;
 			else
 				tmp.at<uchar>(y, x) = 255;

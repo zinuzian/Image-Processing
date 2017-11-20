@@ -121,25 +121,52 @@ bool Status::InitializeBoard() {
 			board = new char*[row];
 			for (int i = 0; i < row; i++) {
 				board[i] = new char[col];
+				for (int j = 0; j < col; j++) {
+					board[i][j] = EMPTY;
+				}
 			}
 		}
 		break;
 	}
+	
+	/*Mat smoothed = smoothing(gray);*/
+	int checkWindow = windowSize / 2;
 
-	/*for (int j = 0; j < row; j++) {
+	for (int j = 0; j < row; j++) {
 		for (int i = 0; i < col; i++) {
-			CvPoint test = getPos(j,i);
-			int checkWindow = windowSize / 2;
-			int cnt = 0;
-			for (int wy = test.x; wy < test.x + checkWindow; wy++) {
-				for (int wx = test.y; wx < test.y + checkWindow; wx++) {
-					
+			CvPoint testPoint = getPos(i, j);
+			int cnt_b = 0, cnt_w = 0;
+			for (int wx = testPoint.x; wx < testPoint.x + checkWindow; wx++) {
+				for (int wy = testPoint.y; wy < testPoint.y + checkWindow; wy++) {
+					if (src.at<uchar>(wy,wx) == 0) cnt_b++;
 				}
 			}
+			if (isrc.at<uchar>(testPoint) == 0) {
+				setStone(i, j, WHITE);
+			}
+			else if (cnt_b>checkWindow* checkWindow*3.141592/4) {
+				setStone(i, j, BLACK);
+			}
+			else {
+				setStone(i, j, EMPTY);
+			}
 		}
-	}*/
-	
+	}
+	imshow("d", isrc);
+	imshow("", src);
+	printBoard();
 	cvSaveImage("RowColPxs.bmp", new IplImage(test));
-	imshow("", test);
+	//imshow("", test);
 	return true;
+}
+
+void Status::printBoard() {
+	for (int j = 0; j < row; j++) {
+		for (int i = 0; i < col; i++) {
+			if (board[j][i] == EMPTY) std::cout << "¦«";
+			else if(board[j][i] == WHITE) std::cout << "¡Ü";
+			else if (board[j][i] == BLACK) std::cout << "¡Û";
+		}
+		std::cout << std::endl;
+	}
 }

@@ -7,7 +7,7 @@ using namespace std;
 using namespace cv;
 
 int main(){
-	Mat img = imread("sample01.bmp");
+	Mat img = imread("sample03.bmp");
 	if (img.empty())
 		return -1;
 	Status stat(img, 20);

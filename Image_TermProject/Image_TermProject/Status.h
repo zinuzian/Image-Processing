@@ -13,7 +13,8 @@ using namespace cv;
 class Status{
 	cv::Mat img;		//original image
 	cv::Mat gray;		//grayscaled image
-	cv::Mat src;		//grayscaled image
+	cv::Mat src;		//binarized image
+	cv::Mat isrc;		//inverse binarized image
 	CvSize size;
 	CvPoint *colPxs,*rowPxs;
 	int windowSize;
@@ -33,6 +34,7 @@ public:
 	bool Update();
 	char** getBoard();
 	CvPoint getPos(int xid, int yid);
+	void printBoard();
 
 private:
 	bool setStone(int xid, int yid, int color);
