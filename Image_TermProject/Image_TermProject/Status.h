@@ -20,6 +20,7 @@ class Status{
 	int windowSize;
 
 	char** board;
+	
 	int row, col;
 	int num_w, num_b;
 
@@ -28,13 +29,16 @@ public:
 	Status(Mat& img, int colNum);
 	Status();
 	~Status();
-
+	unsigned char** highlight;
 	bool InitializeBoard();
 	bool DifferenceCheck();
 	bool Update();
 	char** getBoard();
 	CvPoint getPos(int xid, int yid);
 	void printBoard();
+	int getRow();
+	int getCol();
+
 
 private:
 	bool setStone(int xid, int yid, int color);

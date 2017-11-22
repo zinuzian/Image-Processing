@@ -3,9 +3,9 @@
 
 Status::Status(cv::Mat& img, int colNum) {
 	this->img = img;
-	imshow("original image", img);
+	//imshow("original image", img);
 	cvtColor(img, gray, CV_RGB2GRAY);
-	imshow("grayscaled image", gray);
+	//imshow("grayscaled image", gray);
 	size = cvGetSize(new IplImage(gray));
 	//src = smoothing(src);
 	contrastStretch(gray,160);
@@ -20,6 +20,7 @@ Status::Status(cv::Mat& img, int colNum) {
 	colPxs = nullptr;
 	rowPxs = nullptr;
 	board = nullptr;
+	highlight = nullptr;
 	num_w = num_b = 0;
 }
 Status::Status() {
@@ -30,6 +31,7 @@ Status::Status() {
 	colPxs = nullptr;
 	rowPxs = nullptr;
 	board = nullptr;
+	highlight = nullptr;
 	num_w = num_b = 0;
 }
 Status::~Status() {
@@ -180,9 +182,26 @@ bool Status::InitializeBoard() {
 //bool Status::DifferenceCheck(){
 //
 //}
-//bool Status::Update(){
-//
-//}
+bool Status::Update(){
+	for (int y = 0; y < row; y++){
+		for (int x = 0; x < col; x++){
+			CvPoint temp = getPos(x, y);
+			if (highlight[y][x]>0){
+				for (int ty = temp.y - windowSize / 2; ty < temp.y + windowSize / 2; ty++){
+					for (int tx = temp.x - windowSize / 2; tx < temp.x + windowSize / 2; tx++){
+						int t = img.at<Vec3b>(ty, tx)[2];
+						t += highlight[y][x];
+						if (t>255) t = 255;
+						img.at<Vec3b>(ty, tx)[0] = t;
+					}
+				}
+			}
+				
+		}
+	}
+	imshow("result", img);
+	return true;
+}
 char** Status::getBoard(){
 	return board;
 }
@@ -190,3 +209,9 @@ CvPoint Status::getPos(int xid, int yid){
 	return CvPoint(colPxs[xid].x, rowPxs[yid].y);
 }
 
+int Status::getRow(){
+	return row;
+}
+int Status::getCol(){
+	return col;
+}

@@ -119,8 +119,10 @@ bool Status::InitializeBoard() {
 			}*/
 
 			board = new char*[row];
+			highlight = new unsigned char*[row];
 			for (int i = 0; i < row; i++) {
 				board[i] = new char[col];
+				highlight[i] = new unsigned char[col];
 				for (int j = 0; j < col; j++) {
 					board[i][j] = EMPTY;
 				}
@@ -152,8 +154,8 @@ bool Status::InitializeBoard() {
 			}
 		}
 	}
-	imshow("d", isrc);
-	imshow("", src);
+	//imshow("d", isrc);
+	//imshow("", src);
 	printBoard();
 	cvSaveImage("RowColPxs.bmp", new IplImage(test));
 	//imshow("", test);
