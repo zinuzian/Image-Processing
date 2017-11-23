@@ -1,25 +1,17 @@
-#include<windows.h>
+#include<Windows.h>
 #include<iostream>
-#include<opencv2\highgui\highgui.hpp>
-#include<highgui.h>
-#include<cv.h>
-
-
-LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
-HINSTANCE g_hInst;
-LPSTR lpszClass = "Mouse";
-POINT mouse;
 
 using namespace std;
-using namespace cv;
+
 
 void SaveBitmap(char *szFilename, HBITMAP hBitmap);
 
 int main(){
+	POINT mouse;
 	cout << "capture start" << endl;
 	//HWND hWnd = GetConsoleWindow();
 	//ShowWindow(hWnd, SW_HIDE);
-	Sleep(3000);  //클릭 할 준비를 위해 준 시간
+	Sleep(1000);  //클릭 할 준비를 위해 준 시간 (프로그램 실행 후 1초 뒤에 드래그 해야함)
 
 	int count = 0;
 	int firstX = 0, firstY = 0;
@@ -39,15 +31,9 @@ int main(){
 			lastX = mouse.x;
 			lastY = mouse.y;
 			break;
-		}	
-		
-
+		}
 	}
 
-	/*cout << firstX << endl;
-	cout << firstY << endl;
-	cout << lastX << endl;
-	cout << lastY << endl;*/
 
 	int w = lastX - firstX;
 	int h = lastY - firstY;
@@ -56,11 +42,9 @@ int main(){
 	HDC hDC = CreateCompatibleDC(hScreen);
 	HBITMAP hBitmap = CreateCompatibleBitmap(hScreen, w, h);
 	HGDIOBJ old_obj = SelectObject(hDC, hBitmap);
-	BOOL bRet = BitBlt(hDC, 0, 0, w, h, hScreen, firstX, firstY, SRCCOPY); //get a full screen image
+	BOOL bRet = BitBlt(hDC, 0, 0, w, h, hScreen, firstX, firstY, SRCCOPY); //"board.bpm"이라는 이름으로 저장됨
 	SaveBitmap("board.bmp", hBitmap);
 
-	waitKey(0);
-	
 
 	return 0;
 }
