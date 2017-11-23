@@ -44,10 +44,10 @@ int main(){
 
 	}
 
-	cout << firstX << endl;
+	/*cout << firstX << endl;
 	cout << firstY << endl;
 	cout << lastX << endl;
-	cout << lastY << endl;
+	cout << lastY << endl;*/
 
 	int w = lastX - firstX;
 	int h = lastY - firstY;
