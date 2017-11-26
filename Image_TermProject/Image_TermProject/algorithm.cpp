@@ -14,7 +14,7 @@ Algor::Algor(){
 	int horempcount = 0;
 
 }
-Algor::Algor(char inputarray[][19]){
+Algor::Algor(char inputarray[],int inputrow,int inputcol){
 	int vertcount = 0;
 	int diagcount1 = 0;
 	int diagcount2 = 0;
@@ -23,22 +23,22 @@ Algor::Algor(char inputarray[][19]){
 	int diagempcount1 = 0;
 	int diagempcount2 = 0;
 	int horempcount = 0;
-	for (int i = 0; i < 19; i++){
-		vector<char> myRow(19, 0);
+	for (int i = 0; i < inputrow; i++){
+		vector<char> myRow(inputcol, 0);
 		data.push_back(myRow);
 	}
-	for (int i = 0; i < 19; i++){
-		vector<unsigned char> Row2(19, 0);
+	for (int i = 0; i < inputrow; i++){
+		vector<unsigned char> Row2(inputcol, 0);
 		highlight.push_back(Row2);
 	}
-	for (int i = 0; i < 19; i++){
-		for (int j = 0; j < 19; j++){
-			data[i][j] = inputarray[j][i];
+	for (int i = 0; i < inputrow; i++){
+		for (int j = 0; j < inputcol; j++){
+			data[i][j] = inputarray[(inputrow*i)+j];
 		}
 	}
 
 }
-Algor::Algor(char inputarray[][15]){
+/*Algor::Algor(char inputarray[][15]){
 	int vertcount = 0;
 	int diagcount1 = 0;
 	int diagcount2 = 0;
@@ -62,10 +62,11 @@ Algor::Algor(char inputarray[][15]){
 	}
 
 
-}
+}*/
 Algor::~Algor(){
 	cout << "destructor È£Ãâ";
 }
+
 void Algor::search(int a, int b){
 	int x = a;
 	int y = b;
