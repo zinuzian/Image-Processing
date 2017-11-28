@@ -14,7 +14,7 @@ Algor::Algor(){
 	int horempcount = 0;
 
 }
-Algor::Algor(char inputarray[],int inputrow,int inputcol){
+Algor::Algor(char **inputarray,int inputrow,int inputcol,bool player){
 	int vertcount = 0;
 	int diagcount1 = 0;
 	int diagcount2 = 0;
@@ -31,9 +31,18 @@ Algor::Algor(char inputarray[],int inputrow,int inputcol){
 		vector<unsigned char> Row2(inputcol, 0);
 		highlight.push_back(Row2);
 	}
-	for (int i = 0; i < inputrow; i++){
-		for (int j = 0; j < inputcol; j++){
-			data[i][j] = inputarray[(inputrow*i)+j];
+	if (player == 1){
+		for (int i = 0; i < inputrow; i++){
+			for (int j = 0; j < inputcol; j++){
+				data[i][j] = inputarray[i][j];
+			}
+		}
+	}
+	else{
+		for (int i = 0; i < inputrow; i++){
+			for (int j = 0; j < inputcol; j++){
+				data[i][j] = -1*inputarray[i][j];
+			}
 		}
 	}
 
@@ -64,7 +73,7 @@ Algor::Algor(char inputarray[],int inputrow,int inputcol){
 
 }*/
 Algor::~Algor(){
-	cout << "destructor È£Ãâ";
+	cout << "destructor call";
 }
 
 void Algor::search(int a, int b){
@@ -165,7 +174,7 @@ void Algor::search(int a, int b){
 			}
 			else if (data[x - i][y] == 0){
 				if ((x - i) != (data.size() - 1) && (x - i) != 0){
-					if (data[x - i + 1][y] == -1 && data[x - i - 1][y] == -1)
+					if (data[x - i + 1][y] == -1&& data[x - i - 1][y] == -1)
 						horempcount += 1;
 				}
 			}
@@ -188,12 +197,12 @@ void Algor::search(int a, int b){
 			}
 		}
 		if ((y - i) >= 0){
-			if (data[x][y + i] == 1){
+			if (data[x][y - i] == 1){
 				vertcount -= 3;
 			}
-			else if (data[x][y + i] == 0){
-				if ((y + i) != (size - 1) && (y + i) != 0){
-					if (data[x][y + i + 1] == -1 && data[x][y + i - 1] == -1)
+			else if (data[x][y - i] == 0){
+				if ((y - i) != (size - 1) && (y - i) != 0){
+					if (data[x][y - i + 1] == -1 && data[x][y - i - 1] == -1)
 						vertempcount += 1;
 				}
 			}
@@ -250,6 +259,9 @@ void Algor::highlighting(int x, int y, int size, bool key){
 					case 4:
 						highlight[x + i][y] = (unsigned char)(highlight[x + i][y] + 255);
 						break;
+					case 5:
+						cout << "game over!";
+						break;
 					case -1:
 						if (horempcount == 1){
 							highlight[x + i][y] = (unsigned char)(highlight[x + i][y] + 5);
@@ -280,6 +292,9 @@ void Algor::highlighting(int x, int y, int size, bool key){
 
 					case 4:
 						highlight[x + i][y + i] = (unsigned char)(highlight[x + i][y + i] + 255);
+						break;
+					case 5:
+						cout << "game over!";
 						break;
 					case -1:
 						if (diagempcount1 == 1){
@@ -313,6 +328,9 @@ void Algor::highlighting(int x, int y, int size, bool key){
 					case 4:
 						highlight[x][y + i] = (unsigned char)(highlight[x][y + i] + 255);
 						break;
+					case 5:
+						cout << "game over!";
+						break;
 					case -1:
 						if (vertempcount == 1){
 							highlight[x][y + i] = (unsigned char)(highlight[x][y + i] + 5);
@@ -345,6 +363,10 @@ void Algor::highlighting(int x, int y, int size, bool key){
 					case 4:
 						highlight[x + i][y - i] = (unsigned char)(highlight[x + i][y - i] + 255);
 						break;
+					case 5:
+						cout << "game over!";
+						break;
+
 					case -1:
 						if (diagempcount2 == 1){
 							highlight[x + i][y - i] = (unsigned char)(highlight[x + i][y - i] + 5);
@@ -383,6 +405,9 @@ void Algor::highlighting(int x, int y, int size, bool key){
 					case 4:
 						highlight[x + i][y] = (unsigned char)(highlight[x + i][y] + 255);
 						break;
+					case 5:
+						cout << "game over!";
+						break;
 					case -1:
 						if (horempcount == 1){
 							highlight[x + i][y] = (unsigned char)(highlight[x + i][y] + 5);
@@ -414,6 +439,9 @@ void Algor::highlighting(int x, int y, int size, bool key){
 
 					case 4:
 						highlight[x + i][y + i] = (unsigned char)(highlight[x + i][y + i] + 255);
+						break;
+					case 5:
+						cout << "game over!";
 						break;
 					case -1:
 						if (diagempcount1 == 1){
@@ -447,6 +475,9 @@ void Algor::highlighting(int x, int y, int size, bool key){
 					case 4:
 						highlight[x][y + i] = (unsigned char)(highlight[x][y + i] + 255);
 						break;
+					case 5:
+						cout << "game over!";
+						break;
 					case -1:
 						if (vertempcount == 1){
 							highlight[x][y + i] = (unsigned char)(highlight[x][y + i] + 5);
@@ -478,6 +509,9 @@ void Algor::highlighting(int x, int y, int size, bool key){
 
 					case 4:
 						highlight[x + i][y - i] = (unsigned char)(highlight[x + i][y - i] + 255);
+						break;
+					case 5:
+						cout << "game over!";
 						break;
 					case -1:
 						if (diagempcount2 == 1){

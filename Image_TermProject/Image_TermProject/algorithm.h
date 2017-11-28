@@ -23,7 +23,7 @@ private:
 
 public:
 	Algor();
-	Algor(char inputarray[],int inputrow, int inputcol);
+	Algor(char **inputarray, int inputrow, int inputcol,bool player);
 	
 	~Algor();
 	void search(int a , int b);

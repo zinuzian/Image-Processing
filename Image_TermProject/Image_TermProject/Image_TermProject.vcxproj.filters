@@ -21,6 +21,9 @@
     <ClInclude Include="algorithm.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="menu.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -33,6 +36,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="algorithm.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="menu.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

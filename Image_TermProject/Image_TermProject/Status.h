@@ -5,10 +5,10 @@ using namespace cv;
 
 #define EMPTY 0
 #define BLACK 1
-#define WHITE 2
+#define WHITE -1
 
 #define LINE_THICKNESS 10
-#define WB_THRESHOLD 120
+#define WB_THRESHOLD 140
 
 class Status{
 	cv::Mat img;		//original image
