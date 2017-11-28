@@ -7,8 +7,8 @@ bool Status::InitializeBoard() {
 	if (src.empty()) return false;
 	Mat test = Mat::zeros(size, CV_8U);
 	std::vector<CvPoint> list;
-
-	for (int y = 0; y < 40; y++) {
+	bool done = false;
+	for (int y = 0; y < size.height-6; y++) {
 		int colCnt = 0;
 		int prev = 0, now = 0;
 		for (int x = 0; x < size.width - 6; x++) {
@@ -62,11 +62,15 @@ bool Status::InitializeBoard() {
 				std::cout << i+1 <<". "<< colPxs[i].x<< " " << colPxs[i].y<<std::endl;
 			}*/
 			list.clear();
+			done = true;
 			break;
 		}
-
+		if (done) {
+			done = false;
+			break;
+		}
 	}
-	for (int x = 0; x < 40; x++) {
+	for (int x = 0; x < size.width-6; x++) {
 		int rowCnt = 0;
 		int prev = 0, now = 0;
 		for (int y = 0; y < size.height - 6; y++) {
@@ -119,47 +123,25 @@ bool Status::InitializeBoard() {
 			}*/
 
 			board = new char*[row];
-			highlight = new unsigned char*[row];
+			//highlight = new unsigned char*[row];
 			for (int i = 0; i < row; i++) {
 				board[i] = new char[col];
-				highlight[i] = new unsigned char[col];
+				//highlight[i] = new unsigned char[col];
 				for (int j = 0; j < col; j++) {
 					board[i][j] = EMPTY;
 				}
 			}
+			cvSaveImage("RowColPxs.bmp", new IplImage(test));
+			return true;
 		}
-		break;
 	}
 	
 	/*Mat smoothed = smoothing(gray);*/
-	int checkWindow = windowSize / 2;
-
-	for (int j = 0; j < row; j++) {
-		for (int i = 0; i < col; i++) {
-			CvPoint testPoint = getPos(i, j);
-			int cnt_b = 0, cnt_w = 0;
-			for (int wx = testPoint.x; wx < testPoint.x + checkWindow; wx++) {
-				for (int wy = testPoint.y; wy < testPoint.y + checkWindow; wy++) {
-					if (src.at<uchar>(wy,wx) == 0) cnt_b++;
-				}
-			}
-			if (isrc.at<uchar>(testPoint) == 0) {
-				setStone(i, j, WHITE);
-			}
-			else if (cnt_b>checkWindow* checkWindow*3.141592/4) {
-				setStone(i, j, BLACK);
-			}
-			else {
-				setStone(i, j, EMPTY);
-			}
-		}
-	}
+	
 	//imshow("d", isrc);
 	//imshow("", src);
-	printBoard();
-	cvSaveImage("RowColPxs.bmp", new IplImage(test));
-	//imshow("", test);
-	return true;
+	
+	return false;
 }
 
 void Status::printBoard() {
@@ -171,4 +153,31 @@ void Status::printBoard() {
 		}
 		std::cout << std::endl;
 	}
+}
+bool Status::BoardCheck() {
+
+	int checkWindow = windowSize / 2;
+
+	for (int j = 0; j < row; j++) {
+		for (int i = 0; i < col; i++) {
+			CvPoint testPoint = getPos(i, j);
+			int cnt_b = 0, cnt_w = 0;
+			for (int wx = testPoint.x; wx < testPoint.x + checkWindow && wx<size.width; wx++) {
+				for (int wy = testPoint.y; wy < testPoint.y + checkWindow && wy<size.height; wy++) {
+					if (src.at<uchar>(wy, wx) == 0) cnt_b++;
+				}
+			}
+			if (isrc.at<uchar>(testPoint) == 0) {
+				setStone(i, j, WHITE);
+			}
+			else if (cnt_b>checkWindow* checkWindow*3.141592 / 4) {
+				setStone(i, j, BLACK);
+			}
+			else {
+				setStone(i, j, EMPTY);
+			}
+		}
+	}
+	printBoard();
+	return true;
 }

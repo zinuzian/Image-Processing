@@ -29,9 +29,9 @@ public:
 	Status(Mat& img, int colNum);
 	Status();
 	~Status();
-	unsigned char** highlight;
+	std::vector<std::vector<unsigned char>> highlight;
 	bool InitializeBoard();
-	bool DifferenceCheck();
+	bool BoardCheck();
 	bool Update();
 	char** getBoard();
 	CvPoint getPos(int xid, int yid);

@@ -20,7 +20,7 @@ Status::Status(cv::Mat& img, int colNum) {
 	colPxs = nullptr;
 	rowPxs = nullptr;
 	board = nullptr;
-	highlight = nullptr;
+	//highlight = nullptr;
 	num_w = num_b = 0;
 }
 Status::Status() {
@@ -31,7 +31,7 @@ Status::Status() {
 	colPxs = nullptr;
 	rowPxs = nullptr;
 	board = nullptr;
-	highlight = nullptr;
+	//highlight = nullptr;
 	num_w = num_b = 0;
 }
 Status::~Status() {
