@@ -79,7 +79,8 @@ Algor::~Algor(){
 void Algor::search(int a, int b){
 	int x = a;
 	int y = b;
-	int size = data.size();
+	int sizeRow = data.size();
+	int sizeCol = data[1].size();
 
 	if (data[x][y] == 1){
 		vertcount = -3;
@@ -95,12 +96,12 @@ void Algor::search(int a, int b){
 	}
 	for (int i = 1; i <= 4; i++){
 
-		if ((x + i) < data.size()){
+		if ((x + i) < sizeCol){
 			if (data[x + i][y] == 1){
 				horcount -= 3;
 			}
 			else if (data[x + i][y] == 0){
-				if ((x + i) != (data.size()-1) && (x + i) != 0){
+				if ((x + i) != ((sizeCol-1)) && (x + i) != 0){
 					if (data[x + i + 1][y] == -1 && data[x + i - 1][y] == -1)
 						horempcount += 1;
 				}
@@ -109,12 +110,12 @@ void Algor::search(int a, int b){
 				horcount += 1;
 			}
 		}
-		if ((x + i) < size && (y + i) < size){
+		if ((x + i) < sizeCol && (y + i) < sizeRow){
 			if (data[x + i][y + i] == 1){
 				diagcount1 -= 3;
 			}
 			else if (data[x + i][y + i] == 0){
-				if ((x + i) != (size - 1) && (x + i) != 0 && (y + i) != 0 && (y + i) != (size - 1)){
+				if ((x + i) != (sizeCol - 1) && (x + i) != 0 && (y + i) != 0 && (y + i) != (sizeRow - 1)){
 					if (data[x + i + 1][y + i + 1] == -1 && data[x + i - 1][y + i - 1] == -1)
 						diagempcount1 += 1;
 				}
@@ -123,12 +124,12 @@ void Algor::search(int a, int b){
 				diagcount1 += 1;
 			}
 		}
-		if ((y + i) < size){
+		if ((y + i) < sizeRow){
 			if (data[x][y + i] == 1){
 				vertcount -= 3;
 			}
 			else if (data[x][y + i] == 0){
-				if ((y + i) != (size - 1) && (y + i) != 0){
+				if ((y + i) != (sizeRow - 1) && (y + i) != 0){
 					if (data[x][y + i + 1] == -1 && data[x][y + i - 1] == -1)
 						vertempcount += 1;
 				}
@@ -137,12 +138,12 @@ void Algor::search(int a, int b){
 				vertcount += 1;
 			}
 		}
-		if ((x + i) < size && (y - i) >= 0){
+		if ((x + i) < sizeCol && (y - i) >= 0){
 			if (data[x + i][y - i] == 1){
 				diagcount2 -= 3;
 			}
 			else if (data[x + i][y - i] == 0){
-				if ((x + i) != (size - 1) && (x + i) != 0 && (y - i) != 0 && (y - i) != (size - 1)){
+				if ((x + i) != (sizeRow - 1) && (x + i) != 0 && (y - i) != 0 && (y - i) != (sizeCol - 1)){
 					if (data[x + i + 1][y - i - 1] == -1 && data[x + i - 1][y - i + 1] == -1)
 						diagempcount2 += 1;
 				}
@@ -173,7 +174,7 @@ void Algor::search(int a, int b){
 				horcount -= 3;
 			}
 			else if (data[x - i][y] == 0){
-				if ((x - i) != (data.size() - 1) && (x - i) != 0){
+				if ((x - i) != (sizeCol - 1) && (x - i) != 0){
 					if (data[x - i + 1][y] == -1&& data[x - i - 1][y] == -1)
 						horempcount += 1;
 				}
@@ -187,7 +188,7 @@ void Algor::search(int a, int b){
 				diagcount1 -= 3;
 			}
 			else if (data[x - i][y - i] == 0){
-				if ((x - i) != (size - 1) && (x - i) != 0 && (y - i) != 0 && (y - i) != (size - 1)){
+				if ((x - i) != (sizeCol - 1) && (x - i) != 0 && (y - i) != 0 && (y - i) != (sizeRow - 1)){
 					if (data[x - i + 1][y - i + 1] == -1 && data[x - i - 1][y - i - 1] == -1)
 						diagempcount1 += 1;
 				}
@@ -201,7 +202,7 @@ void Algor::search(int a, int b){
 				vertcount -= 3;
 			}
 			else if (data[x][y - i] == 0){
-				if ((y - i) != (size - 1) && (y - i) != 0){
+				if ((y - i) != (sizeRow - 1) && (y - i) != 0){
 					if (data[x][y - i + 1] == -1 && data[x][y - i - 1] == -1)
 						vertempcount += 1;
 				}
@@ -210,12 +211,12 @@ void Algor::search(int a, int b){
 				vertcount += 1;
 			}
 		}
-		if ((x - i) >= 0 && (y + i) < size){
+		if ((x - i) >= 0 && (y + i) < sizeRow){
 			if (data[x - i][y + i] == 1){
 				diagcount2 -= 3;
 			}
 			else if (data[x - i][y + i] == 0){
-				if ((x - i) != (size - 1) && (x - i) != 0 && (y + i) != 0 && (y + i) != (size - 1)){
+				if ((x - i) != (sizeCol - 1) && (x - i) != 0 && (y + i) != 0 && (y + i) != (sizeRow - 1)){
 					if (data[x - i + 1][y + i - 1] == -1 && data[x - i - 1][y + i + 1] == -1)
 						diagempcount2 += 1;
 				}
@@ -226,79 +227,79 @@ void Algor::search(int a, int b){
 
 		}
 	}
-	highlighting(x, y, size, 0);
+	highlighting(x, y, sizeCol,sizeRow, 0);
 
 
 
 
 }
 
-void Algor::highlighting(int x, int y, int size, bool key){
+void Algor::highlighting(int x, int y, int sizeCol,int sizeRow, bool key){
 	if (key == 1){
 		for (int i = 1; i <= 4; i++){
 
-			if ((x + i) < size){
+			if ((x + i) < sizeCol){
 				if (data[x + i][y] == 0){
 					switch (horcount){
 					case 0:
 						if (horempcount == 0){
-							highlight[x + i][y] = (unsigned char)(highlight[x + i][y] + 5);
+							highlight[x + i][y] = (highlight[x + i][y] + 5);
 
 						}
 						else if (horempcount == 1){
-							highlight[x + i][y] = (unsigned char)(highlight[x + i][y] + 5);
+							highlight[x + i][y] = (highlight[x + i][y] + 5);
 						}
 						break;
 
 
 
 					case 3:
-						highlight[x + i][y] = (unsigned char)(highlight[x + i][y] + 10);
+						highlight[x + i][y] = (highlight[x + i][y] + 10);
 						break;
 
 					case 4:
-						highlight[x + i][y] = (unsigned char)(highlight[x + i][y] + 255);
+						highlight[x + i][y] = (highlight[x + i][y] + 255);
 						break;
 					case 5:
 						cout << "game over!";
 						break;
 					case -1:
 						if (horempcount == 1){
-							highlight[x + i][y] = (unsigned char)(highlight[x + i][y] + 5);
+							highlight[x + i][y] = (highlight[x + i][y] + 5);
 						}
 						break;
 					}
 				}
 
 			}
-			if ((x + i) < size && (y + i) < size){
+			if ((x + i) < sizeCol && (y + i) < sizeRow){
 				if (data[x + i][y + i] == 0){
 					switch (diagcount1){
 					case 0:
 						if (diagempcount1 == 0){
-							highlight[x + i][y + i] = (unsigned char)(highlight[x + i][y + i] + 5);
+							highlight[x + i][y + i] = (highlight[x + i][y + i] + 5);
 
 						}
 						else if (diagempcount1 == 1){
-							highlight[x + i][y + i] = (unsigned char)(highlight[x + i][y + i] + 5);
+							highlight[x + i][y + i] = (highlight[x + i][y + i] + 5);
 						}
 						break;
 
 
 
 					case 3:
-						highlight[x + i][y + i] = (unsigned char)(highlight[x + i][y + i] + 10);
+						highlight[x + i][y + i] = (highlight[x + i][y + i] + 10);
 						break;
 
 					case 4:
-						highlight[x + i][y + i] = (unsigned char)(highlight[x + i][y + i] + 255);
+						highlight[x + i][y + i] = (highlight[x + i][y + i] + 255);
 						break;
 					case 5:
 						cout << "game over!";
 						break;
 					case -1:
 						if (diagempcount1 == 1){
-							highlight[x + i][y + i] = (unsigned char)(highlight[x + i][y + i] + 5);
+							highlight[x + i][y + i] = (highlight[x + i][y + i] + 5);
 						}
 						break;
 
@@ -306,34 +307,34 @@ void Algor::highlighting(int x, int y, int size, bool key){
 				}
 
 			}
-			if ((y + i) < size){
+			if ((y + i) < sizeRow){
 				if (data[x][y + i] == 0){
 					switch (vertcount){
 					case 0:
 						if (vertempcount == 0){
-							highlight[x][y + i] = (unsigned char)(highlight[x][y + i] + 5);
+							highlight[x][y + i] = (highlight[x][y + i] + 5);
 
 						}
 						else if (vertempcount == 1){
-							highlight[x][y + i] = (unsigned char)(highlight[x][y + i] + 5);
+							highlight[x][y + i] = (highlight[x][y + i] + 5);
 						}
 						break;
 
 
 
 					case 3:
-						highlight[x][y + i] = (unsigned char)(highlight[x][y + i] + 10);
+						highlight[x][y + i] = (highlight[x][y + i] + 10);
 						break;
 
 					case 4:
-						highlight[x][y + i] = (unsigned char)(highlight[x][y + i] + 255);
+						highlight[x][y + i] = (highlight[x][y + i] + 255);
 						break;
 					case 5:
 						cout << "game over!";
 						break;
 					case -1:
 						if (vertempcount == 1){
-							highlight[x][y + i] = (unsigned char)(highlight[x][y + i] + 5);
+							highlight[x][y + i] = (highlight[x][y + i] + 5);
 						}
 						break;
 
@@ -341,27 +342,27 @@ void Algor::highlighting(int x, int y, int size, bool key){
 				}
 
 			}
-			if ((x + i) < size && (y - i) >= 0){
+			if ((x + i) < sizeCol && (y - i) >= 0){
 				if (data[x + i][y - i] == 0){
 					switch (diagcount2){
 					case 0:
 						if (diagempcount2 == 0){
-							highlight[x + i][y - i] = (unsigned char)(highlight[x + i][y - i] + 5);
+							highlight[x + i][y - i] = (highlight[x + i][y - i] + 5);
 
 						}
 						else if (diagempcount2 == 1){
-							highlight[x + i][y - i] = (unsigned char)(highlight[x + i][y - i] + 5);
+							highlight[x + i][y - i] = (highlight[x + i][y - i] + 5);
 						}
 						break;
 
 
 
 					case 3:
-						highlight[x + i][y - i] = (unsigned char)(highlight[x + i][y - i] + 10);
+						highlight[x + i][y - i] = (highlight[x + i][y - i] + 10);
 						break;
 
 					case 4:
-						highlight[x + i][y - i] = (unsigned char)(highlight[x + i][y - i] + 255);
+						highlight[x + i][y - i] = (highlight[x + i][y - i] + 255);
 						break;
 					case 5:
 						cout << "game over!";
@@ -369,7 +370,7 @@ void Algor::highlighting(int x, int y, int size, bool key){
 
 					case -1:
 						if (diagempcount2 == 1){
-							highlight[x + i][y - i] = (unsigned char)(highlight[x + i][y - i] + 5);
+							highlight[x + i][y - i] = (highlight[x + i][y - i] + 5);
 						}
 						break;
 
@@ -388,29 +389,29 @@ void Algor::highlighting(int x, int y, int size, bool key){
 					switch (horcount){
 					case 0:
 						if (horempcount == 0){
-							highlight[x + i][y] = (unsigned char)(highlight[x + i][y] + 5);
+							highlight[x + i][y] = (highlight[x + i][y] + 5);
 
 						}
 						else if (horempcount == 1){
-							highlight[x + i][y] = (unsigned char)(highlight[x + i][y] + 5);
+							highlight[x + i][y] = (highlight[x + i][y] + 5);
 						}
 						break;
 
 
 
 					case 3:
-						highlight[x + i][y] = (unsigned char)(highlight[x + i][y] + 10);
+						highlight[x + i][y] = (highlight[x + i][y] + 10);
 						break;
 
 					case 4:
-						highlight[x + i][y] = (unsigned char)(highlight[x + i][y] + 255);
+						highlight[x + i][y] = (highlight[x + i][y] + 255);
 						break;
 					case 5:
 						cout << "game over!";
 						break;
 					case -1:
 						if (horempcount == 1){
-							highlight[x + i][y] = (unsigned char)(highlight[x + i][y] + 5);
+							highlight[x + i][y] = (highlight[x + i][y] + 5);
 						}
 						break;
 
@@ -423,29 +424,29 @@ void Algor::highlighting(int x, int y, int size, bool key){
 					switch (diagcount1){
 					case 0:
 						if (diagempcount1 == 0){
-							highlight[x + i][y + i] = (unsigned char)(highlight[x + i][y + i] + 5);
+							highlight[x + i][y + i] = (highlight[x + i][y + i] + 5);
 
 						}
 						else if (diagempcount1 == 1){
-							highlight[x + i][y + i] = (unsigned char)(highlight[x + i][y + i] + 5);
+							highlight[x + i][y + i] = (highlight[x + i][y + i] + 5);
 						}
 						break;
 
 
 
 					case 3:
-						highlight[x + i][y + i] = (unsigned char)(highlight[x + i][y + i] + 10);
+						highlight[x + i][y + i] = (highlight[x + i][y + i] + 10);
 						break;
 
 					case 4:
-						highlight[x + i][y + i] = (unsigned char)(highlight[x + i][y + i] + 255);
+						highlight[x + i][y + i] = (highlight[x + i][y + i] + 255);
 						break;
 					case 5:
 						cout << "game over!";
 						break;
 					case -1:
 						if (diagempcount1 == 1){
-							highlight[x + i][y + i] = (unsigned char)(highlight[x + i][y + i] + 5);
+							highlight[x + i][y + i] = (highlight[x + i][y + i] + 5);
 						}
 						break;
 
@@ -458,29 +459,29 @@ void Algor::highlighting(int x, int y, int size, bool key){
 					switch (vertcount){
 					case 0:
 						if (vertempcount == 0){
-							highlight[x][y + i] = (unsigned char)(highlight[x][y + i] + 5);
+							highlight[x][y + i] = (highlight[x][y + i] + 5);
 
 						}
 						else if (vertempcount == 1){
-							highlight[x][y + i] = (unsigned char)(highlight[x][y + i] + 5);
+							highlight[x][y + i] = (highlight[x][y + i] + 5);
 						}
 						break;
 
 
 
 					case 3:
-						highlight[x][y + i] = (unsigned char)(highlight[x][y + i] + 10);
+						highlight[x][y + i] = (highlight[x][y + i] + 10);
 						break;
 
 					case 4:
-						highlight[x][y + i] = (unsigned char)(highlight[x][y + i] + 255);
+						highlight[x][y + i] = (highlight[x][y + i] + 255);
 						break;
 					case 5:
 						cout << "game over!";
 						break;
 					case -1:
 						if (vertempcount == 1){
-							highlight[x][y + i] = (unsigned char)(highlight[x][y + i] + 5);
+							highlight[x][y + i] = (highlight[x][y + i] + 5);
 						}
 						break;
 
@@ -488,34 +489,34 @@ void Algor::highlighting(int x, int y, int size, bool key){
 				}
 
 			}
-			if ((x + i) >= 0 && (y - i) <size){
+			if ((x + i) >= 0 && (y - i) <sizeRow){
 				if (data[x + i][y - i] == 0){
 					switch (diagcount2){
 					case 0:
 						if (diagempcount2 == 0){
-							highlight[x + i][y - i] = (unsigned char)(highlight[x + i][y - i] + 5);
+							highlight[x + i][y - i] = (highlight[x + i][y - i] + 5);
 
 						}
 						else if (diagempcount2 == 1){
-							highlight[x + i][y - i] = (unsigned char)(highlight[x + i][y - i] + 5);
+							highlight[x + i][y - i] = (highlight[x + i][y - i] + 5);
 						}
 						break;
 
 
 
 					case 3:
-						highlight[x + i][y - i] = (unsigned char)(highlight[x + i][y - i] + 10);
+						highlight[x + i][y - i] = (highlight[x + i][y - i] + 10);
 						break;
 
 					case 4:
-						highlight[x + i][y - i] = (unsigned char)(highlight[x + i][y - i] + 255);
+						highlight[x + i][y - i] = (highlight[x + i][y - i] + 255);
 						break;
 					case 5:
 						cout << "game over!";
 						break;
 					case -1:
 						if (diagempcount2 == 1){
-							highlight[x + i][y - i] = (unsigned char)(highlight[x + i][y - i] + 5);
+							highlight[x + i][y - i] = (highlight[x + i][y - i] + 5);
 						}
 						break;
 
@@ -528,6 +529,13 @@ void Algor::highlighting(int x, int y, int size, bool key){
 
 
 
+	}
+	for (int i = 0; i < sizeRow i++){
+		for (int j = 0; j < sizeCol j++){
+			if (highlight[i][j]>255){
+				highlight[i][j] = 255;
+			}
+		}
 	}
 
 }
