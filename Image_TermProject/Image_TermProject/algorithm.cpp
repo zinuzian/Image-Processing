@@ -1,7 +1,9 @@
 #include<iostream>
 #include"algorithm.h"
 
-
+#define TWO 10
+#define THREE 100
+#define FOUR 200
 
 Algor::Algor(){
 	int vertcount = 0;
@@ -14,7 +16,7 @@ Algor::Algor(){
 	int horempcount = 0;
 
 }
-Algor::Algor(char **inputarray,int inputrow,int inputcol,bool player){
+Algor::Algor(char **inputarray, int inputrow, int inputcol, bool player){
 	int vertcount = 0;
 	int diagcount1 = 0;
 	int diagcount2 = 0;
@@ -28,7 +30,7 @@ Algor::Algor(char **inputarray,int inputrow,int inputcol,bool player){
 		data.push_back(myRow);
 	}
 	for (int i = 0; i < inputrow; i++){
-		vector<unsigned char> Row2(inputcol, 0);
+		vector<unsigned int> Row2(inputcol, 0);
 		highlight.push_back(Row2);
 	}
 	if (player == 1){
@@ -41,37 +43,13 @@ Algor::Algor(char **inputarray,int inputrow,int inputcol,bool player){
 	else{
 		for (int i = 0; i < inputrow; i++){
 			for (int j = 0; j < inputcol; j++){
-				data[i][j] = -1*inputarray[i][j];
+				data[i][j] = -1 * inputarray[i][j];
 			}
 		}
 	}
 
 }
-/*Algor::Algor(char inputarray[][15]){
-	int vertcount = 0;
-	int diagcount1 = 0;
-	int diagcount2 = 0;
-	int horcount = 0;
-	int vertempcount = 0;
-	int diagempcount1 = 0;
-	int diagempcount2 = 0;
-	int horempcount = 0;
-	for (int i = 0; i < 15; i++){
-		vector<char> myRow(15, 0);
-		data.push_back(myRow);
-	}
-	for (int i = 0; i < 15; i++){
-		vector<unsigned char> Row2(15, 0);
-		highlight.push_back(Row2);
-	}
-	for (int i = 0; i < 15; i++){
-		for (int j = 0; j < 15; j++){
-			data[i][j]=inputarray[j][i];
-		}
-	}
 
-
-}*/
 Algor::~Algor(){
 	cout << "destructor call";
 }
@@ -101,7 +79,7 @@ void Algor::search(int a, int b){
 				horcount -= 3;
 			}
 			else if (data[x + i][y] == 0){
-				if ((x + i) != ((sizeCol-1)) && (x + i) != 0){
+				if ((x + i) != ((sizeCol - 1)) && (x + i) != 0){
 					if (data[x + i + 1][y] == -1 && data[x + i - 1][y] == -1)
 						horempcount += 1;
 				}
@@ -154,7 +132,7 @@ void Algor::search(int a, int b){
 
 		}
 	}
-	highlighting(x, y, size, 1);
+	highlighting(x, y, sizeCol,sizeRow, 1);
 	if (data[x][y] == 1){
 		vertcount = -3;
 		diagcount1 = -3;
@@ -175,7 +153,7 @@ void Algor::search(int a, int b){
 			}
 			else if (data[x - i][y] == 0){
 				if ((x - i) != (sizeCol - 1) && (x - i) != 0){
-					if (data[x - i + 1][y] == -1&& data[x - i - 1][y] == -1)
+					if (data[x - i + 1][y] == -1 && data[x - i - 1][y] == -1)
 						horempcount += 1;
 				}
 			}
@@ -227,14 +205,14 @@ void Algor::search(int a, int b){
 
 		}
 	}
-	highlighting(x, y, sizeCol,sizeRow, 0);
+	highlighting(x, y, sizeCol, sizeRow, 0);
 
 
 
 
 }
 
-void Algor::highlighting(int x, int y, int sizeCol,int sizeRow, bool key){
+void Algor::highlighting(int x, int y, int sizeCol, int sizeRow, bool key){
 	if (key == 1){
 		for (int i = 1; i <= 4; i++){
 
@@ -251,14 +229,17 @@ void Algor::highlighting(int x, int y, int sizeCol,int sizeRow, bool key){
 						}
 						break;
 
-
+					case 2:
+						////////////////////////
+						highlight[x + i][y] += TWO;
+						break;
 
 					case 3:
-						highlight[x + i][y] = (highlight[x + i][y] + 10);
+						highlight[x + i][y] = (highlight[x + i][y] + THREE);
 						break;
 
 					case 4:
-						highlight[x + i][y] = (highlight[x + i][y] + 255);
+						highlight[x + i][y] = (highlight[x + i][y] + FOUR);
 						break;
 					case 5:
 						cout << "game over!";
@@ -285,14 +266,17 @@ void Algor::highlighting(int x, int y, int sizeCol,int sizeRow, bool key){
 						}
 						break;
 
-
+					case 2:
+						////////////////////////
+						highlight[x + i][y + i] += TWO;
+						break;
 
 					case 3:
-						highlight[x + i][y + i] = (highlight[x + i][y + i] + 10);
+						highlight[x + i][y + i] = (highlight[x + i][y + i] + THREE);
 						break;
 
 					case 4:
-						highlight[x + i][y + i] = (highlight[x + i][y + i] + 255);
+						highlight[x + i][y + i] = (highlight[x + i][y + i] + FOUR);
 						break;
 					case 5:
 						cout << "game over!";
@@ -320,14 +304,17 @@ void Algor::highlighting(int x, int y, int sizeCol,int sizeRow, bool key){
 						}
 						break;
 
-
+					case 2:
+						////////////////////////
+						highlight[x][y + i] += TWO;
+						break;
 
 					case 3:
-						highlight[x][y + i] = (highlight[x][y + i] + 10);
+						highlight[x][y + i] = (highlight[x][y + i] + THREE);
 						break;
 
 					case 4:
-						highlight[x][y + i] = (highlight[x][y + i] + 255);
+						highlight[x][y + i] = (highlight[x][y + i] + FOUR);
 						break;
 					case 5:
 						cout << "game over!";
@@ -356,13 +343,16 @@ void Algor::highlighting(int x, int y, int sizeCol,int sizeRow, bool key){
 						break;
 
 
-
+					case 2:
+						////////////////////////
+						highlight[x + i][y - i] += TWO;
+						break;
 					case 3:
-						highlight[x + i][y - i] = (highlight[x + i][y - i] + 10);
+						highlight[x + i][y - i] = (highlight[x + i][y - i] + THREE);
 						break;
 
 					case 4:
-						highlight[x + i][y - i] = (highlight[x + i][y - i] + 255);
+						highlight[x + i][y - i] = (highlight[x + i][y - i] + FOUR);
 						break;
 					case 5:
 						cout << "game over!";
@@ -397,14 +387,17 @@ void Algor::highlighting(int x, int y, int sizeCol,int sizeRow, bool key){
 						}
 						break;
 
-
+					case 2:
+						////////////////////////
+						highlight[x + i][y] += TWO;
+						break;
 
 					case 3:
-						highlight[x + i][y] = (highlight[x + i][y] + 10);
+						highlight[x + i][y] = (highlight[x + i][y] + THREE);
 						break;
 
 					case 4:
-						highlight[x + i][y] = (highlight[x + i][y] + 255);
+						highlight[x + i][y] = (highlight[x + i][y] + FOUR);
 						break;
 					case 5:
 						cout << "game over!";
@@ -419,7 +412,7 @@ void Algor::highlighting(int x, int y, int sizeCol,int sizeRow, bool key){
 				}
 
 			}
-			if ((x + i) >= 0 && (y + i) >=0){
+			if ((x + i) >= 0 && (y + i) >= 0){
 				if (data[x + i][y + i] == 0){
 					switch (diagcount1){
 					case 0:
@@ -432,14 +425,17 @@ void Algor::highlighting(int x, int y, int sizeCol,int sizeRow, bool key){
 						}
 						break;
 
-
+					case 2:
+						////////////////////////
+						highlight[x + i][y + i] += TWO;
+						break;
 
 					case 3:
-						highlight[x + i][y + i] = (highlight[x + i][y + i] + 10);
+						highlight[x + i][y + i] = (highlight[x + i][y + i] + THREE);
 						break;
 
 					case 4:
-						highlight[x + i][y + i] = (highlight[x + i][y + i] + 255);
+						highlight[x + i][y + i] = (highlight[x + i][y + i] + FOUR);
 						break;
 					case 5:
 						cout << "game over!";
@@ -467,14 +463,17 @@ void Algor::highlighting(int x, int y, int sizeCol,int sizeRow, bool key){
 						}
 						break;
 
-
+					case 2:
+						////////////////////////
+						highlight[x][y + i] += TWO;
+						break;
 
 					case 3:
-						highlight[x][y + i] = (highlight[x][y + i] + 10);
+						highlight[x][y + i] = (highlight[x][y + i] + THREE);
 						break;
 
 					case 4:
-						highlight[x][y + i] = (highlight[x][y + i] + 255);
+						highlight[x][y + i] = (highlight[x][y + i] + FOUR);
 						break;
 					case 5:
 						cout << "game over!";
@@ -502,14 +501,17 @@ void Algor::highlighting(int x, int y, int sizeCol,int sizeRow, bool key){
 						}
 						break;
 
-
+					case 2:
+						////////////////////////
+						highlight[x + i][y - i] += TWO;
+						break;
 
 					case 3:
-						highlight[x + i][y - i] = (highlight[x + i][y - i] + 10);
+						highlight[x + i][y - i] = (highlight[x + i][y - i] + THREE);
 						break;
 
 					case 4:
-						highlight[x + i][y - i] = (highlight[x + i][y - i] + 255);
+						highlight[x + i][y - i] = (highlight[x + i][y - i] + FOUR);
 						break;
 					case 5:
 						cout << "game over!";
@@ -530,17 +532,17 @@ void Algor::highlighting(int x, int y, int sizeCol,int sizeRow, bool key){
 
 
 	}
-	for (int i = 0; i < sizeRow i++){
-		for (int j = 0; j < sizeCol j++){
+	/*for (int i = 0; i < sizeRow; i++){
+		for (int j = 0; j < sizeCol; j++){
 			if (highlight[i][j]>255){
 				highlight[i][j] = 255;
 			}
 		}
-	}
+	}*/
 
 }
 
-unsigned char Algor::GetHighlight(int x, int y){
+unsigned int Algor::GetHighlight(int x, int y){
 
 
 	return highlight[x][y];
@@ -559,5 +561,15 @@ void Algor::ClrHighlight(){
 }
 
 vector<vector<unsigned char>> Algor::getHB(){
-	return highlight;
+	vector<vector<unsigned char>> real;
+	for (int i = 0; i < highlight.size(); i++){
+		vector<unsigned char> row(highlight[0].size(), 0);
+		real.push_back(row);
+	}
+	for (int i = 0; i < highlight.size(); i++){
+		for (int j = 0; j < highlight[0].size(); j++){
+			real[i][j] = (unsigned char) ((highlight[i][j]>255) ? 255 : highlight[i][j]);
+		}
+	}
+	return real;
 }

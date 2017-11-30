@@ -8,6 +8,8 @@ menu::menu() {
 	lastX = 0, lastY = 0;
 	w = 0;
 	h = 0;
+	system("mode con cols=80 lines=100");
+
 	cout << "welcome to omok insight" << endl;
 
 	cout << "1.start omok assistant program" << endl;

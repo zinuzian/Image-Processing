@@ -8,7 +8,7 @@ class Algor{
 
 private:
 	vector<vector<char>> data;
-	vector<vector<unsigned char>>highlight;
+	vector<vector<unsigned int>>highlight;
 	int vertcount;
 	int diagcount1;
 	int diagcount2;
@@ -28,8 +28,8 @@ public:
 	~Algor();
 	void search(int a , int b);
 	int getnumarray();
-	void highlighting(int x , int y,int size,bool key);
-    unsigned char GetHighlight(int x, int y);
+	void highlighting(int x , int y,int sizeCol,int sizeRow,bool key);
+    unsigned int GetHighlight(int x, int y);
 	void ClrHighlight();
 	vector<vector<unsigned char>> getHB();
 	

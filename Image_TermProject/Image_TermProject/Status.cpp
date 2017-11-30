@@ -35,12 +35,13 @@ Status::Status() {
 	num_w = num_b = 0;
 }
 Status::~Status() {
-	for (int i = 0; i < col; i++) {
+	for (int i = 0; i < row; i++) {
 		delete[] board[i];
 	}
 	delete[] board;
 	delete[] colPxs;
 	delete[] rowPxs;
+	std::cout << "Destruct status" << std::endl;
 }
 
 bool Status::setStone(int xid, int yid, int color) {
@@ -50,7 +51,7 @@ bool Status::setStone(int xid, int yid, int color) {
 			board[i] = new char[row];
 		}
 	}
-	if (xid >= row || yid >= col) return false;
+	if (xid >= col || yid >= row) return false;
 	if (board[yid][xid] != EMPTY) return false;
 
 	board[yid][xid] = color;
@@ -187,12 +188,23 @@ bool Status::Update(){
 		for (int x = 0; x < col; x++){
 			CvPoint temp = getPos(x, y);
 			if (highlight[y][x]>0){
+				Vec3b color = img.at<Vec3b>(temp.y - windowSize / 2, temp.x - windowSize / 2);
+				int t = highlight[y][x];
+				if (color[2] + t > 255)
+					color[2] = 255;
+				else
+					color[2] = t+20;
+				if (color[1] - t < 0)
+					color[1] = 0;
+				else
+					color[1] -= t;
+				if (color[0] - t < 0)
+					color[0] = 0;
+				else
+					color[0] -= t;
 				for (int ty = temp.y - windowSize / 2; ty < temp.y + windowSize / 2; ty++){
 					for (int tx = temp.x - windowSize / 2; tx < temp.x + windowSize / 2; tx++){
-						int t = img.at<Vec3b>(ty, tx)[2];
-						t += highlight[y][x];
-						if (t>255) t = 255;
-						img.at<Vec3b>(ty, tx)[0] = t;
+						img.at<Vec3b>(ty, tx) = color;
 					}
 				}
 			}
@@ -206,6 +218,7 @@ char** Status::getBoard(){
 	return board;
 }
 CvPoint Status::getPos(int xid, int yid){
+	assert(xid < col && yid < row);
 	return CvPoint(colPxs[xid].x, rowPxs[yid].y);
 }
 
@@ -214,4 +227,30 @@ int Status::getRow(){
 }
 int Status::getCol(){
 	return col;
+}
+int Status::getWS(){
+	return windowSize;
+}
+
+long Status::diffCheck(Mat newImg){
+	if (windowSize == 0)
+		return false;
+	long sum = 0L;
+	Mat diff;
+	cvtColor(newImg, diff, CV_RGB2GRAY);
+	contrastStretch(diff, 160);
+	int checkWindow = windowSize / 2;
+	for (int y = 0; y < size.height; y++){
+		for (int x = 0; x < size.width; x++){
+			if (abs(diff.at<uchar>(y, x) - gray.at<uchar>(y, x))>0){
+				diff.at<uchar>(y, x) = 255;
+				sum++;
+			}
+			else{
+				diff.at<uchar>(y, x) = 0;
+			}
+		}
+	}
+	cvSaveImage("diff.bmp", new IplImage(diff));
+	return sum;
 }

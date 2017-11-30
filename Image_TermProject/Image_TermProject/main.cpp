@@ -11,19 +11,53 @@ int main() {
 
 	menu menu;
 	Status* stat=nullptr;
+	int prev_row=0, prev_col=0;
+	bool initsuccess = false;
 	while (1) {
-			
+		
 		menu.capture();
 		Mat img = imread("board.bmp");
 		if (img.empty())
 			return -1;
+		if (stat != nullptr){
+			long twocircle = 2 * (stat->getWS() / 2+1)*(stat->getWS() / 2+1)*3.141592;
+			long diff = stat->diffCheck(img);
+			if (diff == 0L){
+				waitKey(1);
+				Sleep(1000);
+				continue;
+			}
+			else if (diff > twocircle){
+				if (stat->getBoard() != nullptr) {
+					delete stat; stat = nullptr;
+				}
+				cout << "wrong capture" << endl;
+				//Sleep(1000);
+				menu.setcapture();
+				continue;
+			}
+			delete stat;
+		}
+		system("cls");
 		stat = new Status(img, 20);
-		if ((stat->InitializeBoard()) == false) {
-			if(stat->getBoard() != nullptr) delete stat;
+		initsuccess = stat->InitializeBoard();
+	
+		
+		if (initsuccess == false) {
+			if (stat->getBoard() != nullptr)
+			{
+				delete stat; stat = nullptr;
+			}
 			cout << "wrong capture" << endl;
-			menu.setcapture();
+			//menu.setcapture();
 			continue;
 		}
+		
+		if (prev_row == 0 && prev_col == 0){
+			prev_row = stat->getRow();
+			prev_col = stat->getCol();
+		}
+		
 		
 		stat->BoardCheck();
 		char** tmp = stat->getBoard();
@@ -37,12 +71,6 @@ int main() {
 			}
 		}
 
-		/*for (int y = 0; y < stat.getRow(); y++) {
-			for (int x = 0; x < stat.getCol(); x++) {
-				stat.highlight[x][y] = tHB[x][y];
-			}
-		}*/
-
 		stat->highlight = algorithm.getHB();
 
 		for (int y = 0; y < stat->getRow(); y++) {
@@ -52,55 +80,9 @@ int main() {
 			std::cout << std::endl;
 		}
 		stat->Update();
-
-
-
-
-
 		waitKey(1);
-		Sleep(2000);
-		delete stat;
+		Sleep(1000);
+		continue;
+		
 	}
 }
-
-/*mat img = imread("board.bmp");
-if (img.empty())
-	return -1;
-status stat(img, 20);
-stat.initializeboard();
-
-char** tmp = stat.getboard();
-
-algor algorithm(tmp, stat.getrow(), stat.getcol(),1);
-for (int y = 0; y < stat.getrow(); y++){
-	for (int x = 0; x < stat.getcol(); x++){
-		if (tmp[x][y] != empty){
-			algorithm.search(x, y);
-		}
-	}
-}
-
-vector<vector<unsigned char>> thb = algorithm.gethb();
-
-for (int y = 0; y < stat.getrow(); y++){
-	for (int x = 0; x < stat.getcol(); x++){
-		stat.highlight[x][y] = thb[x][y];
-	}
-}
-for (int y = 0; y < stat.getrow(); y++){
-	for (int x = 0; x < stat.getcol(); x++){
-		std::cout <<(int) algorithm.gethighlight(y, x) << " ";
-	}
-	std::cout << std::endl;
-}
-stat.update();
-
-
-
-
-
-waitkey();*/
-//cout << "hi";
-
-
-

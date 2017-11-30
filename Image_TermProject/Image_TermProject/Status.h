@@ -38,7 +38,8 @@ public:
 	void printBoard();
 	int getRow();
 	int getCol();
-
+	int getWS();
+	long diffCheck(Mat newImg);
 
 private:
 	bool setStone(int xid, int yid, int color);
