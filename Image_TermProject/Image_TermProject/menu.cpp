@@ -24,7 +24,15 @@ menu::menu() {
 	cin >> key;
 	if (key == 1) {
 		cout << "Choose your stone color(White:0,Black:1)" << endl;
-		cin >> player;
+		int p;
+		cin >> p;
+		while (!(p == 0 || p == 1)){
+			cout << "invalid input please retype the stone color" << endl;
+			cout << "Choose your stone color(White:0,Black:1)" << endl; 
+			cin.ignore();
+			cin >> p;
+		}
+		player = (p == 0) ? false : true;
 		cout << "capture start" << endl;
 		//HWND hWnd = GetConsoleWindow();
 		//ShowWindow(hWnd, SW_HIDE);
@@ -36,7 +44,7 @@ menu::menu() {
 		exit(0);
 	}
 	else {
-		cout << "invalid input please retype the key";
+		cout << "invalid input please retype the key"<<endl;
 	}
 
 
@@ -44,7 +52,7 @@ menu::menu() {
 
 }
 menu::~menu() {
-	cout << "menu destructor";
+	cout << "menu destructor" << endl;
 
 }
 
@@ -67,13 +75,13 @@ void menu::setcapture() {
 	int clicked = 0;
 	while (TRUE) {
 		GetCursorPos(&mouse);
-		if (clicked == 0 && (GetKeyState(VK_RBUTTON) & 0x80))
+		if (clicked == 0 && (GetAsyncKeyState(VK_RBUTTON) & 0x8000))
 		{
 			firstX = mouse.x;
 			firstY = mouse.y;
 			clicked = 1;
 		}
-		else if (clicked == 1 && (GetKeyState(VK_RBUTTON) & 0x80) == 0) {
+		else if (clicked == 1 && (GetAsyncKeyState(VK_RBUTTON) & 0x8000) == 0) {
 			lastX = mouse.x;
 			lastY = mouse.y;
 			break;

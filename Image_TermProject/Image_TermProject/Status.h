@@ -43,6 +43,7 @@ public:
 
 private:
 	bool setStone(int xid, int yid, int color);
+	bool grayscale(Mat origin, Mat& dst);
 	void contrastStretch(Mat& org, uchar dst);
 	Mat smoothing(Mat& origin);
 	Mat binarize(Mat img);

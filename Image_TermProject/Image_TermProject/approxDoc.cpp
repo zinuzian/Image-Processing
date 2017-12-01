@@ -48,7 +48,6 @@ bool Status::InitializeBoard() {
 				col = colCnt + 2;
 				windowSize = now - prev;
 				colPxs = new CvPoint[col];
-				rowPxs = new CvPoint[row];
 				CvPoint start = CvPoint(list.at(0)); start.x -= windowSize;
 				CvPoint end = CvPoint(list.back()); end.x += windowSize;
 				test.at<uchar>(start) = 255; test.at<uchar>(end) = 255;
@@ -110,6 +109,7 @@ bool Status::InitializeBoard() {
 			}
 			else {
 				row = rowCnt + 2;
+				rowPxs = new CvPoint[row];
 				CvPoint start = colPxs[0];
 				CvPoint end = CvPoint(list.back()); end.y += windowSize;
 				test.at<uchar>(end) = 255;

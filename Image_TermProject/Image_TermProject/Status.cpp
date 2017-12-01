@@ -3,11 +3,8 @@
 
 Status::Status(cv::Mat& img, int colNum) {
 	this->img = img;
-	//imshow("original image", img);
-	cvtColor(img, gray, CV_RGB2GRAY);
-	//imshow("grayscaled image", gray);
-	size = cvGetSize(new IplImage(gray));
-	//src = smoothing(src);
+	size = cvGetSize(new IplImage(img));
+	grayscale(img, gray);
 	contrastStretch(gray,160);
 
 	src = binarize(gray);
@@ -24,6 +21,7 @@ Status::Status(cv::Mat& img, int colNum) {
 	num_w = num_b = 0;
 }
 Status::Status() {
+	this->gray = 0;
 	this->src = 0;
 	this->isrc = 0;
 	size = cvSize(0, 0);
@@ -56,6 +54,20 @@ bool Status::setStone(int xid, int yid, int color) {
 
 	board[yid][xid] = color;
 	return true;
+}
+
+bool Status::grayscale(Mat origin, Mat& dst){
+	if (size.width < 30 || size.height < 30){
+		return false;
+	}
+	dst = Mat::zeros(size, CV_8U);
+	for (int y = 0; y < size.height; y++){
+		for (int x = 0; x < size.width; x++){
+			Vec3b color = origin.at<Vec3b>(y, x);
+			dst.at<uchar>(y, x) = color[1] * 0.7152 + color[0] * 0.0722 + color[2] * 0.2126;
+		}
+	}
+
 }
 
 
@@ -237,7 +249,7 @@ long Status::diffCheck(Mat newImg){
 		return false;
 	long sum = 0L;
 	Mat diff;
-	cvtColor(newImg, diff, CV_RGB2GRAY);
+	grayscale(newImg, diff);
 	contrastStretch(diff, 160);
 	int checkWindow = windowSize / 2;
 	for (int y = 0; y < size.height; y++){

@@ -31,7 +31,7 @@ int main() {
 				if (stat->getBoard() != nullptr) {
 					delete stat; stat = nullptr;
 				}
-				cout << "wrong capture" << endl;
+				cout << "Retry capture" << endl;
 				//Sleep(1000);
 				menu.setcapture();
 				continue;
@@ -48,7 +48,7 @@ int main() {
 			{
 				delete stat; stat = nullptr;
 			}
-			cout << "wrong capture" << endl;
+			cout << "Board init failed" << endl;
 			//menu.setcapture();
 			continue;
 		}
