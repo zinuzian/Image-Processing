@@ -14,8 +14,6 @@ Status::Status(cv::Mat& img, int colNum) {
 
 	windowSize = 0;
 	col = row = colNum;
-	colPxs = nullptr;
-	rowPxs = nullptr;
 	board = nullptr;
 	//highlight = nullptr;
 	num_w = num_b = 0;
@@ -26,8 +24,6 @@ Status::Status() {
 	this->isrc = 0;
 	size = cvSize(0, 0);
 	row = col = 0;
-	colPxs = nullptr;
-	rowPxs = nullptr;
 	board = nullptr;
 	//highlight = nullptr;
 	num_w = num_b = 0;
@@ -37,8 +33,6 @@ Status::~Status() {
 		delete[] board[i];
 	}
 	delete[] board;
-	delete[] colPxs;
-	delete[] rowPxs;
 	std::cout << "Destruct status" << std::endl;
 }
 
@@ -139,62 +133,7 @@ void Status::contrastStretch(Mat& org, uchar dst) {
 	org *= param;
 }
 
-/*
-bool Status::InitializeBoard() {
-	if (src.empty()) return false;
-	uchar newcolor;
-	char pmask[4][3][3] = {
-		{ -1, -2, -1, 0, 0, 0, 1, 2, 1 },
-		{ -1, 0, 1, -2, 0, 2, -1, 0, 1 },
-		{ 0, 1, 2, -1, 0, 1, -2, -1, 0 },
-		{ -2, -1, 0, -1, 0, 1, 0, 1, 2 }
-	};
 
-	Mat buffer = Mat::zeros(cvSize(width, height), CV_8U);
-
-	for (int y = 0; y < height; y++) {		//real
-		for (int x = 0; x < width; x++) {	//real
-			if (y == 0 || x == 0 || y == height - 1 || x == width - 1) {
-				buffer.at<uchar>(y, x) = 0;
-				continue;
-			}
-			int res1 = 0,res2=0;
-			//for (int k = 0; k < 2; k++)
-				for (int i = -1; i < 2; i++) {		//mask
-					for (int j = -1; j < 2; j++) {	//mask
-						int tx = x + j, ty = y + i;	//3x3 mat coordinates
-						res1 += abs(src.at<uchar>(ty, tx) * pmask[0][i + 1][j + 1]);
-						res2 += abs(src.at<uchar>(ty, tx) * pmask[1][i + 1][j + 1]);
-					}
-				}
-			
-			if (res1>500 && res2>500 && res1+res2 < 1260) {
-
-				buffer.at<uchar>(y, x) = (uchar)255;
-			}
-		}
-	}
-	
-	for (int y = height - 1; y >= 0; y--) {
-		for (int x = width - 1; x >= 0; x--) {
-			if (buffer.at<uchar>(y, x) == 255) {
-				
-			}
-		}
-	}
-
-
-
-	
-	imshow("", buffer);
-	return true;
-}
-
-*/
-
-//bool Status::DifferenceCheck(){
-//
-//}
 bool Status::Update(){
 	for (int y = 0; y < row; y++){
 		for (int x = 0; x < col; x++){
@@ -246,12 +185,11 @@ int Status::getWS(){
 
 long Status::diffCheck(Mat newImg){
 	if (windowSize == 0)
-		return false;
+		return -1;
 	long sum = 0L;
 	Mat diff;
 	grayscale(newImg, diff);
 	contrastStretch(diff, 160);
-	int checkWindow = windowSize / 2;
 	for (int y = 0; y < size.height; y++){
 		for (int x = 0; x < size.width; x++){
 			if (abs(diff.at<uchar>(y, x) - gray.at<uchar>(y, x))>0){
@@ -265,4 +203,32 @@ long Status::diffCheck(Mat newImg){
 	}
 	cvSaveImage("diff.bmp", new IplImage(diff));
 	return sum;
+}
+
+bool Status::RCvalidation(Mat newRC){
+	
+		if (windowSize == 0)
+			return false;
+		long sum = 0L;
+		for (int y = 0; y < size.height; y++){
+			for (int x = 0; x < size.width; x++){
+				if (abs(newRC.at<uchar>(y, x) - rowcol.at<uchar>(y, x))>0){
+					sum++;
+				}
+			}
+		}
+		if (sum != 0L){
+			cout << "row and col adjusted" << endl;
+			std::cout << col << " columns found." << std::endl;
+			std::cout << row << " rows found." << std::endl;
+		}
+	
+	return true;
+}
+
+Mat Status::getRCImg(){
+	return rowcol;
+}
+void Status::setRCImg(Mat RCImg){
+	this->rowcol = Mat(RCImg);
 }

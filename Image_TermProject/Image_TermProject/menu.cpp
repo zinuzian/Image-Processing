@@ -36,7 +36,7 @@ menu::menu() {
 		cout << "capture start" << endl;
 		//HWND hWnd = GetConsoleWindow();
 		//ShowWindow(hWnd, SW_HIDE);
-		Sleep(1000);  //클릭 할 준비를 위해 준 시간 (프로그램 실행 후 1초 뒤에 드래그 해야함)
+		//Sleep(1000);  //클릭 할 준비를 위해 준 시간 (프로그램 실행 후 1초 뒤에 드래그 해야함)
 
 		setcapture();
 	}

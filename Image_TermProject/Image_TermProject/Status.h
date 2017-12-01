@@ -2,6 +2,7 @@
 
 #include "opencv2\opencv.hpp"
 using namespace cv;
+using namespace std;
 
 #define EMPTY 0
 #define BLACK 1
@@ -15,8 +16,9 @@ class Status{
 	cv::Mat gray;		//grayscaled image
 	cv::Mat src;		//binarized image
 	cv::Mat isrc;		//inverse binarized image
+	cv::Mat rowcol;
 	CvSize size;
-	CvPoint *colPxs,*rowPxs;
+	vector<CvPoint> colPxs,rowPxs;
 	int windowSize;
 
 	char** board;
@@ -40,6 +42,9 @@ public:
 	int getCol();
 	int getWS();
 	long diffCheck(Mat newImg);
+	bool RCvalidation(Mat newRC);
+	Mat getRCImg();
+	void setRCImg(Mat RCImg);
 
 private:
 	bool setStone(int xid, int yid, int color);
