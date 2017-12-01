@@ -15,8 +15,6 @@ Status::Status(cv::Mat& img, int colNum) {
 	windowSize = 0;
 	col = row = colNum;
 	board = nullptr;
-	//highlight = nullptr;
-	num_w = num_b = 0;
 }
 Status::Status() {
 	this->gray = 0;
@@ -25,8 +23,6 @@ Status::Status() {
 	size = cvSize(0, 0);
 	row = col = 0;
 	board = nullptr;
-	//highlight = nullptr;
-	num_w = num_b = 0;
 }
 Status::~Status() {
 	for (int i = 0; i < row; i++) {
@@ -63,7 +59,6 @@ bool Status::grayscale(Mat origin, Mat& dst){
 	}
 
 }
-
 
 Mat Status::binarize(cv::Mat img) {
 	Mat tmp = Mat::zeros(size,CV_8U);
@@ -162,7 +157,8 @@ bool Status::Update(){
 				
 		}
 	}
-	imshow("result", img);
+	cvSaveImage("Omok Insight.bmp", new IplImage(img));
+	imshow("Omok Insight #_ #a", img);
 	return true;
 }
 char** Status::getBoard(){
@@ -205,19 +201,27 @@ long Status::diffCheck(Mat newImg){
 	return sum;
 }
 
-bool Status::RCvalidation(Mat newRC){
+bool Status::RCvalidation(	Mat oldRC, 
+							vector<CvPoint> cols, 
+							vector<CvPoint> rows)
+{
 	
 		if (windowSize == 0)
 			return false;
 		long sum = 0L;
 		for (int y = 0; y < size.height; y++){
 			for (int x = 0; x < size.width; x++){
-				if (abs(newRC.at<uchar>(y, x) - rowcol.at<uchar>(y, x))>0){
+				if (abs(oldRC.at<uchar>(y, x) - rowcol.at<uchar>(y, x))>0){
 					sum++;
 				}
 			}
 		}
 		if (sum != 0L){
+			rowcol = oldRC;
+			this->colPxs = cols;
+			this->rowPxs = rows;
+			col = colPxs.size();
+			row = rowPxs.size();
 			cout << "row and col adjusted" << endl;
 			std::cout << col << " columns found." << std::endl;
 			std::cout << row << " rows found." << std::endl;
@@ -231,4 +235,11 @@ Mat Status::getRCImg(){
 }
 void Status::setRCImg(Mat RCImg){
 	this->rowcol = Mat(RCImg);
+}
+
+vector<CvPoint> Status::getCols() {
+	return this->colPxs;
+}
+vector<CvPoint> Status::getRows() {
+	return this->rowPxs;
 }

@@ -31,14 +31,13 @@ void searchToHighlight(menu& m, Status*& s){
 	s->Update();
 }
 
-bool makeStatusByImage(menu& m, Status*& s){
-	m.capture();
-	Mat img = imread("board.bmp");
-	if (img.empty())
-		return -1;
+bool makeStatusByImage(Mat& image, menu& m, Status*& s){
+	
+	if (image.empty())
+		return false;
 
 	system("cls");
-	s = new Status(img, 20);
+	s = new Status(image, 20);
 
 	if (s->InitializeBoard() == false) {
 		if (s->getBoard() != nullptr)
@@ -49,6 +48,7 @@ bool makeStatusByImage(menu& m, Status*& s){
 		//menu.setcapture();
 		return false;
 	}
+	return true;
 }
 
 
@@ -62,21 +62,23 @@ int main() {
 	Status* stat = nullptr;
 	bool initsuccess = false;
 	bool RCcheck = false;
-	Mat skeleton;
+	Mat img;
 	vector<CvPoint> cols, rows;
 
-
-	if (!makeStatusByImage(menu, stat))
+	menu.capture();
+	img = imread("board.bmp");
+	if (!makeStatusByImage(img,menu, stat))
 		return -1;
 	searchToHighlight(menu,stat);
-
+	waitKey(1);
+	Sleep(100);
 
 
 	long twocircle = 2 * (stat->getWS() / 2 + 1)*(stat->getWS() / 2 + 1)*3.141592;
-	while (!(GetAsyncKeyState(53) & 0x8000)) {
+	while (!(GetAsyncKeyState(0x53) & 0x8001)) {	//press S to quit
 
 		menu.capture();
-		Mat img = imread("board.bmp");
+		img = imread("board.bmp");
 		if (img.empty())
 			return -1;
 
@@ -84,8 +86,7 @@ int main() {
 		long diff = stat->diffCheck(img);
 		if (diff == 0L){
 			//waitKey(1);
-			Sleep(500);
-			continue;
+			Sleep(10);
 		}
 		else if (diff > twocircle){
 			if (stat->getBoard() != nullptr) {
@@ -97,20 +98,26 @@ int main() {
 			//recapture
 			menu.setcapture();
 
-
-			if (!makeStatusByImage(menu, stat))
+			menu.capture();
+			img = imread("board.bmp");
+			if (img.empty())
+				return -1;
+			if (!makeStatusByImage(img,menu, stat))
 				return -1;
 			searchToHighlight(menu, stat);
-			continue;
+			waitKey(1);
+			Sleep(10);
 		}
 		else{
 			Status* newStat = nullptr;
-			if (!makeStatusByImage(menu, newStat))
+			if (!makeStatusByImage(img, menu, newStat))
 				return -1;
-			stat->RCvalidation(newStat->getRCImg());
+			newStat->RCvalidation(stat->getRCImg(),stat->getCols(),stat->getRows());
+			delete stat;
+			stat = newStat;
 			searchToHighlight(menu, stat);
 			waitKey(1);
-			Sleep(500);
+			Sleep(10);
 		}
 
 	}

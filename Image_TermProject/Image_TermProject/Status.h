@@ -16,37 +16,40 @@ class Status{
 	cv::Mat gray;		//grayscaled image
 	cv::Mat src;		//binarized image
 	cv::Mat isrc;		//inverse binarized image
-	cv::Mat rowcol;
-	CvSize size;
-	vector<CvPoint> colPxs,rowPxs;
-	int windowSize;
+	cv::Mat rowcol;		//image of colPxs, rowPxs
+	CvSize size;		//size of image
+	vector<CvPoint> colPxs,rowPxs;	//coordinates of intersections
+	int windowSize;		//length of window
 
 	char** board;
 	
 	int row, col;
-	int num_w, num_b;
-
 
 public:
+	std::vector<std::vector<unsigned char>> highlight;
+
 	Status(Mat& img, int colNum);
 	Status();
 	~Status();
-	std::vector<std::vector<unsigned char>> highlight;
+
 	bool InitializeBoard();
 	bool BoardCheck();
 	bool Update();
 	char** getBoard();
 	CvPoint getPos(int xid, int yid);
-	void printBoard();
+	Mat getRCImg();
+	vector<CvPoint> getCols();
+	vector<CvPoint> getRows();
 	int getRow();
 	int getCol();
 	int getWS();
+
 	long diffCheck(Mat newImg);
-	bool RCvalidation(Mat newRC);
-	Mat getRCImg();
-	void setRCImg(Mat RCImg);
+	bool RCvalidation(Mat oldRC, vector<CvPoint> cols, vector<CvPoint> rows);
+	void printBoard();
 
 private:
+	void setRCImg(Mat RCImg);
 	bool setStone(int xid, int yid, int color);
 	bool grayscale(Mat origin, Mat& dst);
 	void contrastStretch(Mat& org, uchar dst);

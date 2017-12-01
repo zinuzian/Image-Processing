@@ -2,7 +2,7 @@
 #include"algorithm.h"
 
 #define TWO 10
-#define THREE 100
+#define THREE 70
 #define FOUR 200
 
 Algor::Algor(){
