@@ -34,9 +34,6 @@ menu::menu() {
 		}
 		player = (p == 0) ? false : true;
 		cout << "capture start" << endl;
-		//HWND hWnd = GetConsoleWindow();
-		//ShowWindow(hWnd, SW_HIDE);
-		Sleep(1000);  //클릭 할 준비를 위해 준 시간 (프로그램 실행 후 1초 뒤에 드래그 해야함)
 
 		setcapture();
 	}
@@ -94,10 +91,10 @@ void menu::setcapture() {
 
 void menu::SaveBitmap(char *szFilename, HBITMAP hBitmap)
 {
-	// DC를 얻어옴
+	// get the DC 
 	HDC hdc = GetDC(NULL);
 
-	// bitmap info 를 얻어옴
+	// get bitmap info
 	BITMAPINFO bmpInfo;
 	ZeroMemory(&bmpInfo, sizeof(BITMAPINFO));
 	bmpInfo.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
@@ -105,7 +102,7 @@ void menu::SaveBitmap(char *szFilename, HBITMAP hBitmap)
 	if (bmpInfo.bmiHeader.biSizeImage <= 0)
 		bmpInfo.bmiHeader.biSizeImage = bmpInfo.bmiHeader.biWidth*abs(bmpInfo.bmiHeader.biHeight)*(bmpInfo.bmiHeader.biBitCount + 7) / 8;
 
-	// 실제 image 내용을 얻어오기
+	// get real image
 	LPVOID pBuf = NULL;
 	if ((pBuf = malloc(bmpInfo.bmiHeader.biSizeImage)) == NULL)
 	{
@@ -114,7 +111,7 @@ void menu::SaveBitmap(char *szFilename, HBITMAP hBitmap)
 	bmpInfo.bmiHeader.biCompression = BI_RGB;
 	GetDIBits(hdc, hBitmap, 0, bmpInfo.bmiHeader.biHeight, pBuf, &bmpInfo, DIB_RGB_COLORS);
 
-	// bitmap file header 만들기
+	// bitmap file header
 	BITMAPFILEHEADER bmpFileHeader;
 	bmpFileHeader.bfReserved1 = 0;
 	bmpFileHeader.bfReserved2 = 0;
@@ -122,7 +119,7 @@ void menu::SaveBitmap(char *szFilename, HBITMAP hBitmap)
 	bmpFileHeader.bfType = 'MB';
 	bmpFileHeader.bfOffBits = sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER);
 
-	// 파일을 열고 쓰기
+	// file IO
 	FILE* fp = fopen(szFilename, "wb");
 	if (fp == NULL)
 	{

@@ -19,9 +19,6 @@ bool Status::InitializeBoard() {
 				if (test.at<uchar>(ty, tx - 1) == 255) continue;
 				if (test.at<uchar>(ty, tx - 2) == 255) continue;
 				if (test.at<uchar>(ty, tx - 3) == 255) continue;
-				/*if (test.at<uchar>(ty - 1, tx) == 255) continue;
-				if (test.at<uchar>(ty - 2, tx) == 255) continue;
-				if (test.at<uchar>(ty - 3, tx) == 255) continue;*/
 
 				if (src.at<uchar>(ty, tx) == 0) {
 					for (int i = 1; i < 4; i++) {
@@ -47,28 +44,20 @@ bool Status::InitializeBoard() {
 			else {
 				col = colCnt + 2;
 				windowSize = now - prev;
-				colPxs = new CvPoint[col];
 				CvPoint start = CvPoint(list.at(0)); start.x -= windowSize;
 				CvPoint end = CvPoint(list.back()); end.x += windowSize;
 				test.at<uchar>(start) = 255; test.at<uchar>(end) = 255;
-				colPxs[0] = start;
-				for (int i = 0; i < colCnt; i++) {
-					colPxs[i + 1] = list.at(i);
-				}
-				colPxs[col - 1] = end;
+				colPxs = list;
+				colPxs.insert(colPxs.begin(), start);
+				colPxs.push_back(end);
 
 				std::cout << col << " columns found." << std::endl;
-				/*for (int i = 0; i < col; i++) {
-					std::cout << i+1 <<". "<< colPxs[i].x<< " " << colPxs[i].y<<std::endl;
-					}*/
+				
 				list.clear();
 				done = true;
 				break;
 			}
-			if (done) {
-				done = false;
-				break;
-			}
+			
 		}
 		for (int x = 0; x < size.width - 6; x++) {
 			int rowCnt = 0;
@@ -77,9 +66,7 @@ bool Status::InitializeBoard() {
 				int tx = x + 3, ty = y + 3;
 				CvPoint tmp(tx, ty);
 				int p = 0;
-				/*if (test.at<uchar>(ty, tx - 1) == 255) continue;
-				if (test.at<uchar>(ty, tx - 2) == 255) continue;
-				if (test.at<uchar>(ty, tx - 3) == 255) continue;*/
+				
 				if (test.at<uchar>(ty - 1, tx) == 255) continue;
 				if (test.at<uchar>(ty - 2, tx) == 255) continue;
 				if (test.at<uchar>(ty - 3, tx) == 255) continue;
@@ -109,38 +96,26 @@ bool Status::InitializeBoard() {
 			}
 			else {
 				row = rowCnt + 2;
-				rowPxs = new CvPoint[row];
 				CvPoint start = colPxs[0];
 				CvPoint end = CvPoint(list.back()); end.y += windowSize;
 				test.at<uchar>(end) = 255;
-				rowPxs[0] = start;
-				for (int i = 0; i < rowCnt; i++) {
-					rowPxs[i + 1] = list.at(i);
-				}
-				rowPxs[row - 1] = end;
+				rowPxs = list;
+				rowPxs.insert(rowPxs.begin(), start);
+				rowPxs.push_back(end);
 				std::cout << row << " rows found." << std::endl;
-				/*for (int i = 0; i < row; i++) {
-					std::cout << i + 1 << ". " << rowPxs[i].x << " " << rowPxs[i].y << std::endl;
-					}*/
-
+			
 				board = new char*[row];
-				//highlight = new unsigned char*[row];
 				for (int i = 0; i < row; i++) {
 					board[i] = new char[col];
-					//highlight[i] = new unsigned char[col];
 					for (int j = 0; j < col; j++) {
 						board[i][j] = EMPTY;
 					}
 				}
+				rowcol = test;
 				cvSaveImage("RowColPxs.bmp", new IplImage(test));
 				return true;
 			}
 		}
-
-		/*Mat smoothed = smoothing(gray);*/
-
-		//imshow("d", isrc);
-		//imshow("", src);
 	}
 	catch (Exception e){
 		return false;
@@ -189,3 +164,5 @@ bool Status::BoardCheck() {
 	}
 	return true;
 }
+
+

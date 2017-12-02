@@ -18,8 +18,6 @@ public:
 	menu();
 	~menu();
 	void capture();
-	void recapture();   //리캡쳐 시 출력
-	void start();
 	void  SaveBitmap(char *szFilename, HBITMAP hBitmap);
 	void setcapture();
 	bool getplayer();

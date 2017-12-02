@@ -7,82 +7,118 @@
 using namespace std;
 using namespace cv;
 
+void searchToHighlight(menu& m, Status*& s){
+	s->BoardCheck();
+	char** tmp = s->getBoard();
+
+	Algor algorithm(tmp, s->getRow(), s->getCol(), m.getplayer());
+	for (int y = 0; y < s->getRow(); y++) {
+		for (int x = 0; x < s->getCol(); x++) {
+			if (tmp[x][y] != EMPTY) {
+				algorithm.search(x, y);
+			}
+		}
+	}
+
+	s->highlight = algorithm.getHB();
+
+	for (int y = 0; y < s->getRow(); y++) {
+		for (int x = 0; x < s->getCol(); x++) {
+			std::cout << (int)algorithm.GetHighlight(y, x) << " ";
+		}
+		std::cout << std::endl;
+	}
+	s->Update();
+}
+
+bool makeStatusByImage(Mat& image, menu& m, Status*& s){
+	
+	if (image.empty())
+		return false;
+
+	system("cls");
+	s = new Status(image, 20);
+
+	if (s->InitializeBoard() == false) {
+		if (s->getBoard() != nullptr)
+		{
+			delete s; s = nullptr;
+		}
+		cout << "Board init failed" << endl;
+		return false;
+	}
+	return true;
+}
+
+
+
+
+
+
 int main() {
 
 	menu menu;
-	Status* stat=nullptr;
-	int prev_row=0, prev_col=0;
+	Status* stat = nullptr;
 	bool initsuccess = false;
-	while (1) {
-		
+	bool RCcheck = false;
+	Mat img;
+	vector<CvPoint> cols, rows;
+
+	menu.capture();
+	img = imread("board.bmp");
+	if (!makeStatusByImage(img,menu, stat))
+		return -1;
+	searchToHighlight(menu,stat);
+	waitKey(1);
+	Sleep(100);
+
+
+	long twocircle = 2 * (stat->getWS() / 2 + 1)*(stat->getWS() / 2 + 1)*3.141592;
+	while (!(GetAsyncKeyState(0x53) & 0x8001)) {	//press S to quit
+
 		menu.capture();
-		Mat img = imread("board.bmp");
+		img = imread("board.bmp");
 		if (img.empty())
 			return -1;
-		if (stat != nullptr){
-			long twocircle = 2 * (stat->getWS() / 2+1)*(stat->getWS() / 2+1)*3.141592;
-			long diff = stat->diffCheck(img);
-			if (diff == 0L){
-				waitKey(1);
-				Sleep(1000);
-				continue;
-			}
-			else if (diff > twocircle){
-				if (stat->getBoard() != nullptr) {
-					delete stat; stat = nullptr;
-				}
-				cout << "Retry capture" << endl;
-				//Sleep(1000);
-				menu.setcapture();
-				continue;
-			}
-			delete stat;
+
+
+		long diff = stat->diffCheck(img);
+		if (diff == 0L){
+			waitKey(1);
+			Sleep(10);
 		}
-		system("cls");
-		stat = new Status(img, 20);
-		initsuccess = stat->InitializeBoard();
-	
-		
-		if (initsuccess == false) {
-			if (stat->getBoard() != nullptr)
-			{
+		else if (diff > twocircle){
+			if (stat->getBoard() != nullptr) {
 				delete stat; stat = nullptr;
 			}
-			cout << "Board init failed" << endl;
-			//menu.setcapture();
-			continue;
-		}
-		
-		if (prev_row == 0 && prev_col == 0){
-			prev_row = stat->getRow();
-			prev_col = stat->getCol();
-		}
-		
-		
-		stat->BoardCheck();
-		char** tmp = stat->getBoard();
+			cout << "Retry capture" << endl;
 
-		Algor algorithm(tmp, stat->getRow(), stat->getCol(), menu.getplayer());
-		for (int y = 0; y < stat->getRow(); y++) {
-			for (int x = 0; x < stat->getCol(); x++) {
-				if (tmp[x][y] != EMPTY) {
-					algorithm.search(x, y);
-				}
-			}
+			//recapture
+			menu.setcapture();
+
+			menu.capture();
+			img = imread("board.bmp");
+			if (img.empty())
+				return -1;
+			if (!makeStatusByImage(img,menu, stat))
+				return -1;
+			searchToHighlight(menu, stat);
+			waitKey(1);
+			Sleep(10);
+		}
+		else{
+			Status* newStat = nullptr;
+			if (!makeStatusByImage(img, menu, newStat))
+				return -1;
+			newStat->RCvalidation(stat->getRCImg(),stat->getCols(),stat->getRows());
+			delete stat;
+			stat = newStat;
+			searchToHighlight(menu, stat);
+			waitKey(1);
+			Sleep(10);
 		}
 
-		stat->highlight = algorithm.getHB();
-
-		for (int y = 0; y < stat->getRow(); y++) {
-			for (int x = 0; x < stat->getCol(); x++) {
-				std::cout << (int)algorithm.GetHighlight(y, x) << " ";
-			}
-			std::cout << std::endl;
-		}
-		stat->Update();
-		waitKey(1);
-		Sleep(1000);
-		continue;
-		
 	}
 }
+
+
