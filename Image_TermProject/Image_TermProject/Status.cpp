@@ -37,6 +37,9 @@ bool Status::setStone(int xid, int yid, int color) {
 		board = new char*[col];
 		for (int i = 0; i < col; i++) {
 			board[i] = new char[row];
+			for (int j = 0; j < col; j++) {
+				board[i][j] = EMPTY;
+			}
 		}
 	}
 	if (xid >= col || yid >= row) return false;

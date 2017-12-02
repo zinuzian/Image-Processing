@@ -57,6 +57,11 @@ bool makeStatusByImage(Mat& image, menu& m, Status*& s){
 
 int main() {
 
+	Mat intro = imread("insight.bmp");
+	imshow("Omok Insight #_ #a",intro);
+	waitKey(0x1);
+
+
 	menu menu;
 	Status* stat = nullptr;
 	bool initsuccess = false;

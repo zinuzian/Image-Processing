@@ -1,0 +1,17 @@
+﻿  approxDoc.cpp
+c:\opencv\build\include\opencv2\core\mat.hpp(1965): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+c:\opencv\build\include\opencv2\core\persistence.hpp : warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+c:\opencv\build\include\opencv2\core\utility.hpp : warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+c:\opencv\build\include\opencv2\core\utility.hpp : warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  Status.cpp
+c:\opencv\build\include\opencv2\core\mat.hpp(1965): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+c:\opencv\build\include\opencv2\core\persistence.hpp : warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+c:\opencv\build\include\opencv2\core\utility.hpp : warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+c:\opencv\build\include\opencv2\core\utility.hpp : warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+c:\users\ttolc\desktop\영상처리\image-processing-jeon\image_termproject\image_termproject\status.cpp(60): warning C4244: '=': 'double'에서 'uchar'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\ttolc\desktop\영상처리\image-processing-jeon\image_termproject\image_termproject\status.cpp(225): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\ttolc\desktop\영상처리\image-processing-jeon\image_termproject\image_termproject\status.cpp(226): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  코드를 생성하고 있습니다...
+c:\users\ttolc\desktop\영상처리\image-processing-jeon\image_termproject\image_termproject\status.cpp(64): warning C4715: 'Status::grayscale': 모든 제어 경로에서 값을 반환하지는 않습니다.
+  Image_TermProject.vcxproj -> C:\Users\ttolc\Desktop\영상처리\Image-Processing-Jeon\Image_TermProject\x64\Debug\Image_TermProject.exe
+  Image_TermProject.vcxproj -> C:\Users\ttolc\Desktop\영상처리\Image-Processing-Jeon\Image_TermProject\x64\Debug\Image_TermProject.pdb (Full PDB)

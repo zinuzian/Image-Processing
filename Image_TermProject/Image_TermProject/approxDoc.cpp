@@ -104,13 +104,7 @@ bool Status::InitializeBoard() {
 				rowPxs.push_back(end);
 				std::cout << row << " rows found." << std::endl;
 			
-				board = new char*[row];
-				for (int i = 0; i < row; i++) {
-					board[i] = new char[col];
-					for (int j = 0; j < col; j++) {
-						board[i][j] = EMPTY;
-					}
-				}
+				
 				rowcol = test;
 				cvSaveImage("RowColPxs.bmp", new IplImage(test));
 				return true;
@@ -135,6 +129,7 @@ void Status::printBoard() {
 }
 bool Status::BoardCheck() {
 	try{
+
 		int checkWindow = windowSize / 2;
 
 		for (int j = 0; j < row; j++) {

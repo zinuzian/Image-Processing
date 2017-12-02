@@ -34,6 +34,9 @@ menu::menu() {
 		}
 		player = (p == 0) ? false : true;
 		cout << "capture start" << endl;
+		//HWND hWnd = GetConsoleWindow();
+		//ShowWindow(hWnd, SW_HIDE);
+		//Sleep(1000);  //it is the time for you to ready for click (you should drag 1 second after program start)
 
 		setcapture();
 	}
@@ -91,10 +94,10 @@ void menu::setcapture() {
 
 void menu::SaveBitmap(char *szFilename, HBITMAP hBitmap)
 {
-	// get the DC 
+	// To get DC
 	HDC hdc = GetDC(NULL);
 
-	// get bitmap info
+	// getting bitmap info
 	BITMAPINFO bmpInfo;
 	ZeroMemory(&bmpInfo, sizeof(BITMAPINFO));
 	bmpInfo.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
@@ -102,7 +105,7 @@ void menu::SaveBitmap(char *szFilename, HBITMAP hBitmap)
 	if (bmpInfo.bmiHeader.biSizeImage <= 0)
 		bmpInfo.bmiHeader.biSizeImage = bmpInfo.bmiHeader.biWidth*abs(bmpInfo.bmiHeader.biHeight)*(bmpInfo.bmiHeader.biBitCount + 7) / 8;
 
-	// get real image
+	// To get real image data
 	LPVOID pBuf = NULL;
 	if ((pBuf = malloc(bmpInfo.bmiHeader.biSizeImage)) == NULL)
 	{
@@ -111,7 +114,7 @@ void menu::SaveBitmap(char *szFilename, HBITMAP hBitmap)
 	bmpInfo.bmiHeader.biCompression = BI_RGB;
 	GetDIBits(hdc, hBitmap, 0, bmpInfo.bmiHeader.biHeight, pBuf, &bmpInfo, DIB_RGB_COLORS);
 
-	// bitmap file header
+	// bitmap file header making
 	BITMAPFILEHEADER bmpFileHeader;
 	bmpFileHeader.bfReserved1 = 0;
 	bmpFileHeader.bfReserved2 = 0;
@@ -119,7 +122,7 @@ void menu::SaveBitmap(char *szFilename, HBITMAP hBitmap)
 	bmpFileHeader.bfType = 'MB';
 	bmpFileHeader.bfOffBits = sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER);
 
-	// file IO
+	// open file in writing mode
 	FILE* fp = fopen(szFilename, "wb");
 	if (fp == NULL)
 	{
