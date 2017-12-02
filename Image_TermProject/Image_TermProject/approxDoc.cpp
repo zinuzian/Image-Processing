@@ -19,9 +19,6 @@ bool Status::InitializeBoard() {
 				if (test.at<uchar>(ty, tx - 1) == 255) continue;
 				if (test.at<uchar>(ty, tx - 2) == 255) continue;
 				if (test.at<uchar>(ty, tx - 3) == 255) continue;
-				/*if (test.at<uchar>(ty - 1, tx) == 255) continue;
-				if (test.at<uchar>(ty - 2, tx) == 255) continue;
-				if (test.at<uchar>(ty - 3, tx) == 255) continue;*/
 
 				if (src.at<uchar>(ty, tx) == 0) {
 					for (int i = 1; i < 4; i++) {
@@ -55,9 +52,7 @@ bool Status::InitializeBoard() {
 				colPxs.push_back(end);
 
 				std::cout << col << " columns found." << std::endl;
-				/*for (int i = 0; i < col; i++) {
-					std::cout << i+1 <<". "<< colPxs[i].x<< " " << colPxs[i].y<<std::endl;
-					}*/
+				
 				list.clear();
 				done = true;
 				break;
@@ -71,9 +66,7 @@ bool Status::InitializeBoard() {
 				int tx = x + 3, ty = y + 3;
 				CvPoint tmp(tx, ty);
 				int p = 0;
-				/*if (test.at<uchar>(ty, tx - 1) == 255) continue;
-				if (test.at<uchar>(ty, tx - 2) == 255) continue;
-				if (test.at<uchar>(ty, tx - 3) == 255) continue;*/
+				
 				if (test.at<uchar>(ty - 1, tx) == 255) continue;
 				if (test.at<uchar>(ty - 2, tx) == 255) continue;
 				if (test.at<uchar>(ty - 3, tx) == 255) continue;
@@ -110,15 +103,10 @@ bool Status::InitializeBoard() {
 				rowPxs.insert(rowPxs.begin(), start);
 				rowPxs.push_back(end);
 				std::cout << row << " rows found." << std::endl;
-				/*for (int i = 0; i < row; i++) {
-					std::cout << i + 1 << ". " << rowPxs[i].x << " " << rowPxs[i].y << std::endl;
-					}*/
-
+			
 				board = new char*[row];
-				//highlight = new unsigned char*[row];
 				for (int i = 0; i < row; i++) {
 					board[i] = new char[col];
-					//highlight[i] = new unsigned char[col];
 					for (int j = 0; j < col; j++) {
 						board[i][j] = EMPTY;
 					}
@@ -128,11 +116,6 @@ bool Status::InitializeBoard() {
 				return true;
 			}
 		}
-
-		/*Mat smoothed = smoothing(gray);*/
-
-		//imshow("d", isrc);
-		//imshow("", src);
 	}
 	catch (Exception e){
 		return false;

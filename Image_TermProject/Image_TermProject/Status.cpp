@@ -94,7 +94,6 @@ Mat Status::smoothing(Mat& origin) {
 				rst.at<uchar>(y, x) = origin.at<uchar>(y,x);
 				continue;
 			}
-			//if (origin.at<uchar>(y, x) < WB_THRESHOLD) continue;
 			int temp = 0;
 			for (int j = 0; j < 3; j++) {
 				for (int i = 0; i < 3; i++) {

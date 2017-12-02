@@ -45,7 +45,6 @@ bool makeStatusByImage(Mat& image, menu& m, Status*& s){
 			delete s; s = nullptr;
 		}
 		cout << "Board init failed" << endl;
-		//menu.setcapture();
 		return false;
 	}
 	return true;
@@ -85,7 +84,7 @@ int main() {
 
 		long diff = stat->diffCheck(img);
 		if (diff == 0L){
-			//waitKey(1);
+			waitKey(1);
 			Sleep(10);
 		}
 		else if (diff > twocircle){
@@ -93,7 +92,6 @@ int main() {
 				delete stat; stat = nullptr;
 			}
 			cout << "Retry capture" << endl;
-			//Sleep(1000);
 
 			//recapture
 			menu.setcapture();
